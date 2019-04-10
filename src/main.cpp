@@ -7,8 +7,8 @@
 // Определяем константы для индикации режимов работы WiFi: ST или AP
 const unsigned long wifion  = 100;     // Время включения светодиода wifi
 const unsigned long wifioff = 5000;    // Время выключения светодиода wifi
-const unsigned long apon  = 1000;      // Время включения светодиода wifi
-const unsigned long apoff = 1000;      // Время выключения светодиода wifi
+const unsigned long apon  = 1000;      // Время включения светодиода в режиме AP
+const unsigned long apoff = 1000;      // Время выключения светодиода в режиме AP
 
 // Определяем переменные wifi
 String ssid      = "w2234";       // Точка доступа для подключения
