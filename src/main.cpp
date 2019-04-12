@@ -21,5 +21,5 @@ void setup() {
 }
 
 void loop() {
-    LedWiFi(LED);   // Индикация прдключения к WiFi
+    LedWiFi(LED);                      // Индикация прдключения к WiFi
 }
