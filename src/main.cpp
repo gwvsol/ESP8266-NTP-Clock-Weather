@@ -4,6 +4,7 @@
 #include <BoardFs.h>
 #include <LedOut.h>
 #include <BoardWifi.h>
+#include <BoardTimeNtp.h>
 
 void setup() {
     Serial.begin(115200);              // Настраиваем UART порт для вывода отладочной информации
@@ -14,10 +15,12 @@ void setup() {
     digitalWrite(LED, HIGH);           // Выключаем светодиод
     Serial.println("Set FS configuration");
     FS_init();                         // Настраиваем работу файловой системы
+    //SaveConFig();
     Serial.println("Read the data from the configuration file");
     LoadConFig();                      // Загружаем файл настроек 
     Serial.println("Set WiFi:");
     WIFIinit();                        // Подключаемся к WiFi
+    Time_init();
 }
 
 void loop() {

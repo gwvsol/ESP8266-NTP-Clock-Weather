@@ -31,11 +31,12 @@ bool SaveConFig() {
     JsonObject& json = jsonBuffer.parseObject(jsonConfig);
     // Заполняем поля json 
     //json["SSDPName"] = SSDP_Name;
-    json["ssidAP"] = ssidAP;
-    json["passwdAP"] = passwdAP;
+    json["AP"] = ssidAP;
+    json["pwdAP"] = passwdAP;
     json["ssid"] = ssid;
-    json["passwd"] = passwd;
-    //json["timezone"] = timezone;
+    json["pwd"] = passwd;
+    json["tz"] = timezone;
+    json["ntp"] = sNtpServerName;
     // Помещаем созданный json в глобальную переменную json.printTo(jsonConfig);
     json.printTo(jsonConfig);
     // Открываем файл для записи
@@ -64,20 +65,20 @@ bool LoadConFig() { // Открываем файл для чтения
         Serial.println("Config file size is too large");
         return false;
         }
-    // загружаем файл конфигурации в глобальную переменную
+    // Загружаем файл конфигурации в глобальную переменную
     jsonConfig = configFile.readString();
+    Serial.println(jsonConfig);
     // Резервируем память для json обекта буфер может рости по мере необходимти ESP8266 
     DynamicJsonBuffer jsonBuffer;
-    //  вызовите парсер JSON через экземпляр jsonBuffer
-    //  строку возьмем из глобальной переменной String jsonConfig
+    // Парсер JSON через jsonBuffer
     JsonObject& root = jsonBuffer.parseObject(jsonConfig);
-    // Теперь можно получить значения из root  
-    ssidAP = root["ssidAP"].as<String>(); // Так получаем строку
-    passwdAP = root["passwdAP"].as<String>();
-    //timezone = root["timezone"];               // Так получаем число
-    //SSDP_Name = root["SSDPName"].as<String>();
-    ssid = root["ssid"].as<String>();
-    passwd = root["passwd"].as<String>();
+    // Получаем значения из root  
+    ssidAP = root["AP"].as<String>();
+    passwdAP = root["pwdAP"].as<String>();
+    timezone = root["tz"];
+    sNtpServerName = root["ntp"].as<String>();
+    ssid = root["ST"].as<String>();
+    passwd = root["pwd"].as<String>();
     configFile.close(); // Закрываем файл
     return true;
 }
