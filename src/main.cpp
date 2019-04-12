@@ -15,7 +15,7 @@ void setup() {
     digitalWrite(LED, HIGH);           // Выключаем светодиод
     Serial.println("Set FS configuration");
     FS_init();                         // Настраиваем работу файловой системы
-    //SaveConFig();
+    SaveConFig();                      // Для отладки, можно принудительно перезаписать файл конфигурации
     Serial.println("Read the data from the configuration file");
     LoadConFig();                      // Загружаем файл настроек 
     Serial.println("Set WiFi:");
