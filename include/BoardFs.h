@@ -37,6 +37,7 @@ bool SaveConFig() {
     json["pwd"] = passwd;
     json["tz"] = timezone;
     json["ntp"] = sNtpServerName;
+    json["lang"] = lang;
     // Помещаем созданный json в глобальную переменную json.printTo(jsonConfig);
     json.printTo(jsonConfig);
     // Открываем файл для записи
@@ -67,18 +68,19 @@ bool LoadConFig() { // Открываем файл для чтения
         }
     // Загружаем файл конфигурации в глобальную переменную
     jsonConfig = configFile.readString();
-    Serial.println(jsonConfig);
+    // Serial.println(jsonConfig);  // Для отладки, можно увидесть что записано в файле конфигурации
     // Резервируем память для json обекта буфер может рости по мере необходимти ESP8266 
     DynamicJsonBuffer jsonBuffer;
     // Парсер JSON через jsonBuffer
     JsonObject& root = jsonBuffer.parseObject(jsonConfig);
-    // Получаем значения из root  
+    // Получаем значения из переменной root  
     ssidAP = root["AP"].as<String>();
     passwdAP = root["pwdAP"].as<String>();
     timezone = root["tz"];
+    lang = root["lang"];
     sNtpServerName = root["ntp"].as<String>();
     ssid = root["ST"].as<String>();
     passwd = root["pwd"].as<String>();
-    configFile.close(); // Закрываем файл
+    configFile.close();                         // Закрываем файл
     return true;
 }
