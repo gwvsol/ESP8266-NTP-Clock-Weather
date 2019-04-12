@@ -9,7 +9,7 @@
 #define LED 2                           // GPIO2 LED Board
 
 // Установка языка индикации
-uint8_t lang = 0; //0-RU, 1-BG, 2 -EN
+uint8_t lang = 0; //0-RU, 1-BG, 2 -EN // Параметр обновляется с web интерфейса
 
 // Настройка работы светодиодов
 unsigned long lastTime      = 0;
@@ -21,7 +21,7 @@ const unsigned long WifiOff = 5000;      // Время выключения св
 const unsigned long ApOn    = 1000;      // Время включения светодиода в режиме AP
 const unsigned long ApOff   = 1000;      // Время выключения светодиода в режиме AP
 
-// Определяем переменные для подключения к wifi
+// Определяем переменные для подключения к wifi // Все Параметры обновляется с web интерфейса
 String ssid           = "w2234";            // Точка доступа для подключения
 String passwd         = "Fedex##54";        // Пароль для подключения к точке доступа
 String ssidAP         = "WiFiClock";        // Имя точки доступа в режиме AP
@@ -34,8 +34,8 @@ IPAddress apGate(192, 168, 4, 1);       // IP адрес шлюза
 IPAddress apNetMask(255, 255, 255, 0);  // Маска сети
 
 // Настройка обноления времени с NTP сервера
-String sNtpServerName = "pool.ntp.org";     // NTP сервер по умолчанию
-uint8_t timezone      = 3;                  // часовой пояс GTM
+String sNtpServerName = "pool.ntp.org";     // NTP сервер по умолчанию // Параметр обновляется с web интерфейса
+uint8_t timezone      = 3;                  // часовой пояс GTM // Параметр обновляется с web интерфейса
 const char* day_ru[] PROGMEM = {"Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"};
 const char* day_bg[] PROGMEM = {"Неделя", "Понеделник", "Вторник", "Сряда", "Четвертък", "Петък", "Събота"};
 const char* day_en[] PROGMEM = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
