@@ -7,7 +7,7 @@
 #include <BoardTimeNtp.h>
 
 void setup() {
-    Serial.begin(115200);              // Настраиваем UART порт для вывода отладочной информации
+    Serial.begin(UARTSPEED);              // Настраиваем UART порт для вывода отладочной информации
     Serial.println("");
     Serial.println("===================");
     Serial.println("WiFi LED: Pin2 (Board LED)");
