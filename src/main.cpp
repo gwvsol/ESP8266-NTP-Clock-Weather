@@ -5,6 +5,7 @@
 #include <LedOut.h>
 #include <BoardWifi.h>
 #include <BoardTimeNtp.h>
+#include <BoardSSDP.h>
 
 void setup() {
     Serial.begin(UARTSPEED);              // Настраиваем UART порт для вывода отладочной информации
@@ -15,12 +16,15 @@ void setup() {
     digitalWrite(LED, HIGH);           // Выключаем светодиод
     Serial.println("Set FS configuration");
     FS_init();                         // Настраиваем работу файловой системы
-    SaveConFig();                      // Для отладки, можно принудительно перезаписать файл конфигурации
+    //SaveConFig();                      // Для отладки, можно принудительно перезаписать файл конфигурации
     Serial.println("Read the data from the configuration file");
     LoadConFig();                      // Загружаем файл настроек 
-    Serial.println("Set WiFi:");
-    WIFIinit();                        // Подключаемся к WiFi
+    Serial.println("Set WiFi");
+    WIFI_init();                        // Подключаемся к WiFi
+    Serial.println("Set Time");
     Time_init();
+    Serial.println("Set SSDP Service");
+    SSDP_init();
 }
 
 void loop() {
