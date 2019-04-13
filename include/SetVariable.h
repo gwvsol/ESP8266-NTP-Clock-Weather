@@ -8,6 +8,15 @@
 // Определяем подключение к выводам микроконтроллера
 #define LED 2                           // GPIO2 LED Board
 
+// Определяем скорость UART порта
+#define UARTSPEED 115200
+
+// Определяем порт для WEB Сервера
+#define WEBPORT 80
+
+// Определяем порт для WEB UDP
+#define WEBUDP 8888
+
 // Установка языка индикации
 uint8_t lang = 0; //0-RU, 1-BG, 2 -EN // Параметр обновляется с web интерфейса
 
@@ -26,12 +35,12 @@ String ssid           = "w2234";            // Точка доступа для 
 String passwd         = "Fedex##54";        // Пароль для подключения к точке доступа
 String ssidAP         = "WiFiClock";        // Имя точки доступа в режиме AP
 String passwdAP       = "rootroot";         // Пароль точки доступа в режиме AP
-String jsonConfig     = "{}";               // Здесь храним сонфиг с файла и для его записи
+String jsonConfig     = "{}";               // Здесь храним конфиг с файла и для его записи
 
 // Настройки в режиме AP
-IPAddress apIP(192, 168, 4, 1);         // IP адрес
-IPAddress apGate(192, 168, 4, 1);       // IP адрес шлюза
-IPAddress apNetMask(255, 255, 255, 0);  // Маска сети
+IPAddress apIP(192, 168, 4, 1);             // IP адрес
+IPAddress apGate(192, 168, 4, 1);           // IP адрес шлюза
+IPAddress apNetMask(255, 255, 255, 0);      // Маска сети
 
 // Настройка обноления времени с NTP сервера
 String sNtpServerName = "pool.ntp.org";     // NTP сервер по умолчанию // Параметр обновляется с web интерфейса
@@ -46,4 +55,4 @@ const char* month_en[] PROGMEM = {"January", "February", "March", "April", "May"
 const char** month_table[] PROGMEM = {month_ru, month_bg, month_en};
 
 // Настройка WiFi UDP для работы с NTP серверами для обновления времени
-unsigned int localPort = 8888;  // Локальный порт для прослушивания UDP-пакетов
+unsigned int localPort = WEBUDP;  // Локальный порт для прослушивания UDP-пакетов
