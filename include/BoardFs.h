@@ -30,14 +30,14 @@ bool SaveConFig() {
     //  вызовите парсер JSON через экземпляр jsonBuffer
     JsonObject& json = jsonBuffer.parseObject(jsonConfig);
     // Заполняем поля json 
-    //json["SSDPName"] = SSDP_Name;
-    json["AP"] = ssidAP;
-    json["pwdAP"] = passwdAP;
-    json["ssid"] = ssid;
-    json["pwd"] = passwd;
-    json["tz"] = timezone;
-    json["ntp"] = sNtpServerName;
-    json["lang"] = lang;
+    json["SSDP"]    = SSDP_Name;
+    json["AP"]      = ssidAP;
+    json["pwdAP"]   = passwdAP;
+    json["ssid"]    = ssid;
+    json["pwd"]     = passwd;
+    json["tz"]      = timezone;
+    json["ntp"]     = sNtpServerName;
+    json["lang"]    = lang;
     // Помещаем созданный json в глобальную переменную json.printTo(jsonConfig);
     json.printTo(jsonConfig);
     // Открываем файл для записи
@@ -74,13 +74,14 @@ bool LoadConFig() { // Открываем файл для чтения
     // Парсер JSON через jsonBuffer
     JsonObject& root = jsonBuffer.parseObject(jsonConfig);
     // Получаем значения из переменной root  
-    ssidAP = root["AP"].as<String>();
-    passwdAP = root["pwdAP"].as<String>();
-    timezone = root["tz"];
-    lang = root["lang"];
+    ssidAP      = root["AP"].as<String>();
+    passwdAP    = root["pwdAP"].as<String>();
+    timezone    = root["tz"];
+    lang        = root["lang"];
     sNtpServerName = root["ntp"].as<String>();
-    ssid = root["ST"].as<String>();
-    passwd = root["pwd"].as<String>();
+    ssid        = root["ST"].as<String>();
+    passwd      = root["pwd"].as<String>();
+    SSDP_Name   = root["SSDP"].as<String>();
     configFile.close();                         // Закрываем файл
     return true;
 }
