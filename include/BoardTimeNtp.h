@@ -1,6 +1,8 @@
 #include <TimeLib.h> //https://github.com/PaulStoffregen/Time Michael Margolis
 #include <WiFiUdp.h>
 
+#define NTP_PORT 123
+
 WiFiUDP Udp;
 const int NTP_PACKET_SIZE = 48;         //  NTP-время – в первых 48 байтах сообщения
 byte packetBuffer[NTP_PACKET_SIZE];     //  буфер для хранения входящих и исходящих пакетов
@@ -21,7 +23,7 @@ void sendNTPpacket(IPAddress &address) {
     packetBuffer[14] = 49;
     packetBuffer[15] = 52;
     // После заполнения всех указанных полей вы сможете отправлять пакет с запросом о временной метке:      
-    Udp.beginPacket(address, 123); // NTP-запросы к порту 123
+    Udp.beginPacket(address, NTP_PORT); // NTP-запросы к порту 123
     Udp.write(packetBuffer, NTP_PACKET_SIZE);
     Udp.endPacket();
 }
