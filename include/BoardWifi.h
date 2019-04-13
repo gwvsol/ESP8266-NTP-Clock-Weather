@@ -20,7 +20,7 @@ void LedWiFi(int led) {
     }
 }
 
-void WIFIinit() {
+void WIFI_init() {
   // Попытка подключения к точке доступа
     WiFi.mode(WIFI_STA);
     byte tries = 11;
