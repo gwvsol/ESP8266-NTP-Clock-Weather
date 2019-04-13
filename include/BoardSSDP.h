@@ -3,7 +3,7 @@
 #define ESP8266WiFi_h
 #endif
 
-void SSDP_init() {
+void SSDP_init(void) {
     //Если версия  2.0.0 закаментируйте следующую строчку
     SSDP.setDeviceType(DeviceType);
     SSDP.setSchemaURL(SchemaURL);
