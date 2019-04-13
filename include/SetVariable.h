@@ -37,6 +37,17 @@ String ssidAP         = "WiFiClock";        // Имя точки доступа 
 String passwdAP       = "rootroot";         // Пароль точки доступа в режиме AP
 String jsonConfig     = "{}";               // Здесь храним конфиг с файла и для его записи
 
+// Настройки для сервиса SSDP
+String SSDP_Name      = "CLOCK.Lightwell";  // Имя SSDP // Параметр обновляется с web интерфейса
+String DeviceType     = "upnp:rootdevice";
+String SchemaURL      = "description.xml";
+String SerialNumber   = "001788102205";
+String ModelName      = "SSDP-LW";
+String ModelNumber    = "000000000001";
+String ModelURL       = "https://led-lightwell.eu/";
+String Manufacturer   = "LIGHTWELL";
+String ManufacturerURL = "https://led-lightwell.eu";
+
 // Настройки в режиме AP
 IPAddress apIP(192, 168, 4, 1);             // IP адрес
 IPAddress apGate(192, 168, 4, 1);           // IP адрес шлюза
