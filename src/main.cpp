@@ -6,6 +6,7 @@
 #include <BoardWifi.h>
 #include <BoardTimeNtp.h>
 #include <BoardSSDP.h>
+#include <BoardHTTP.h>
 
 void setup() {
     Serial.begin(UARTSPEED);              // Настраиваем UART порт для вывода отладочной информации
@@ -25,8 +26,12 @@ void setup() {
     Time_init();
     Serial.println("Set SSDP Service");
     SSDP_init();
+    Serial.println("Set and Start Web Service");
+    HTTP_init();
 }
 
 void loop() {
     LedWiFi(LED);                      // Индикация прдключения к WiFi
+    HTTP.handleClient();
+    delay(1);
 }
