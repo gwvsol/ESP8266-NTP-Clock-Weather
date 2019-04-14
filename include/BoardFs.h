@@ -49,6 +49,7 @@ bool SaveConFig() {
     // Записываем config json в файл и закрываем его
     json.printTo(configFile);
     configFile.close();
+    Serial.println("Save config file OK!");
     return true;
 }
 
@@ -68,7 +69,7 @@ bool LoadConFig() { // Открываем файл для чтения
         }
     // Загружаем файл конфигурации в глобальную переменную
     jsonConfig = configFile.readString();
-    // Serial.println(jsonConfig);  // Для отладки, можно увидесть что записано в файле конфигурации
+    Serial.println(jsonConfig);  // Для отладки, можно увидесть что записано в файле конфигурации
     // Резервируем память для json обекта буфер может рости по мере необходимти ESP8266 
     DynamicJsonBuffer jsonBuffer;
     // Парсер JSON через jsonBuffer
