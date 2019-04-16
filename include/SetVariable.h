@@ -35,7 +35,6 @@ String ssid           = "w2234";            // Точка доступа для 
 String passwd         = "Fedex##54";        // Пароль для подключения к точке доступа
 String ssidAP         = "WiFiClock";        // Имя точки доступа в режиме AP
 String passwdAP       = "rootroot";         // Пароль точки доступа в режиме AP
-String jsonConfig     = "{}";               // Здесь храним конфиг с файла и для его записи
 
 // Настройки для сервиса SSDP
 String SSDP_Name      = "CLOCK.Lightwell";  // Имя SSDP // Параметр обновляется с web интерфейса
@@ -54,7 +53,7 @@ IPAddress apGate(192, 168, 4, 1);           // IP адрес шлюза
 IPAddress apNetMask(255, 255, 255, 0);      // Маска сети
 
 // Настройка обноления времени с NTP сервера
-String sNtpServerName = "pool.ntp.org";     // NTP сервер по умолчанию // Параметр обновляется с web интерфейса
+String NtpName = "pool.ntp.org";     // NTP сервер по умолчанию // Параметр обновляется с web интерфейса
 uint8_t timezone      = 3;                  // часовой пояс GTM // Параметр обновляется с web интерфейса
 const char* day_ru[] PROGMEM = {"Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"};
 const char* day_bg[] PROGMEM = {"Неделя", "Понеделник", "Вторник", "Сряда", "Четвертък", "Петък", "Събота"};

@@ -25,21 +25,17 @@ void FS_init(void) {
 
 // Запись данных в файл config.json
 bool SaveConFig() {
-    // Резервируем памяь для json обекта буфер может рости по мере необходимти ESP8266 
-    DynamicJsonBuffer jsonBuffer;
-    //  вызовите парсер JSON через экземпляр jsonBuffer
-    JsonObject& json = jsonBuffer.parseObject(jsonConfig);
+    // Резервируем памяь для json обекта буфер может рости по мере необходимти ESP8266
+    DynamicJsonDocument json(1024);
     // Заполняем поля json 
     json["SSDP"]    = SSDP_Name;
     json["AP"]      = ssidAP;
     json["pwdAP"]   = passwdAP;
-    json["ssid"]    = ssid;
+    json["ST"]      = ssid;
     json["pwd"]     = passwd;
     json["tz"]      = timezone;
-    json["ntp"]     = sNtpServerName;
+    json["ntp"]     = NtpName;
     json["lang"]    = lang;
-    // Помещаем созданный json в глобальную переменную json.printTo(jsonConfig);
-    json.printTo(jsonConfig);
     // Открываем файл для записи
     File configFile = SPIFFS.open("/config.json", "w");
     if (!configFile) {
@@ -47,7 +43,7 @@ bool SaveConFig() {
         return false;
     }
     // Записываем config json в файл и закрываем его
-    json.printTo(configFile);
+    serializeJson(json, configFile);
     configFile.close();
     Serial.println("Save config file OK!");
     return true;
@@ -68,21 +64,24 @@ bool LoadConFig() { // Открываем файл для чтения
         return false;
         }
     // Загружаем файл конфигурации в глобальную переменную
+    String jsonConfig     = "{}";                // Здесь храним конфиг с файла и для его записи
     jsonConfig = configFile.readString();
+    Serial.println("Load Config File...");
     Serial.println(jsonConfig);  // Для отладки, можно увидесть что записано в файле конфигурации
-    // Резервируем память для json обекта буфер может рости по мере необходимти ESP8266 
-    DynamicJsonBuffer jsonBuffer;
+    // Резервируем память для json обекта буфер может рости по мере необходимти ESP8266
+    DynamicJsonDocument doc(1024);
     // Парсер JSON через jsonBuffer
-    JsonObject& root = jsonBuffer.parseObject(jsonConfig);
+    deserializeJson(doc, jsonConfig);
+    // JsonObject root = jsonBuffer.parseObject(jsonConfig);
     // Получаем значения из переменной root  
-    ssidAP      = root["AP"].as<String>();
-    passwdAP    = root["pwdAP"].as<String>();
-    timezone    = root["tz"];
-    lang        = root["lang"];
-    sNtpServerName = root["ntp"].as<String>();
-    ssid        = root["ST"].as<String>();
-    passwd      = root["pwd"].as<String>();
-    SSDP_Name   = root["SSDP"].as<String>();
+    ssidAP      = doc["AP"].as<String>();
+    passwdAP    = doc["pwdAP"].as<String>();
+    timezone    = doc["tz"];
+    lang        = doc["lang"];
+    NtpName = doc["ntp"].as<String>();
+    ssid        = doc["ST"].as<String>();
+    passwd      = doc["pwd"].as<String>();
+    SSDP_Name   = doc["SSDP"].as<String>();
     configFile.close();                         // Закрываем файл
     return true;
 }
