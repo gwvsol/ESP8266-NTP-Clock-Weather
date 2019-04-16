@@ -16,11 +16,15 @@ File fsUploadFile;                   // Для работы с файловой 
 void handle_Restart() {
     String restart = HTTP.arg("rst");
     if (restart == "ok") {
-        HTTP.send(200, "text/plain", "OK");
+        HTTP.send(200, "text/plain", "Reset OK");
         ESP.restart();
-    }
+    } else {
+    HTTP.send(200, "text / plain", "No Reset"); // Oтправляем ответ No Reset
+  }
 }
 
+// Принудительное сохранение файла конфигурации, необходимо в процессе отладки модуля
+// По запросу по запросу вида http://IP/save?save=ok
 void save_Config() {
     String save = HTTP.arg("save");
     if (save == "ok") {
@@ -29,6 +33,7 @@ void save_Config() {
     }
 }
 
+// Синхронизация времени устройства по запросу вида http://IP/time
 void handle_Time() {
     timeSynch();
     HTTP.send(200, "text/plain", "OK"); // Отправляем ответ о выполнении
@@ -46,8 +51,9 @@ void handle_time_zone() {
 // Установка нового NTP сервера по запросу вида http://IP/setntp?setntpz=us.pool.ntp.org
 void handle_ntp_server() {
     // Получаем значение нового NTP сервера и сохраняем         
-    sNtpServerName = HTTP.arg("setntp");
-    sNtpServerName.toCharArray(ntpServerName, sizeof(ntpServerName));
+    NtpName = HTTP.arg("setntp").c_str();
+    NtpName.toCharArray(ntpServerName, sizeof(ntpServerName));
+    Serial.println(NtpName);
     SaveConFig();
     timeSynch();
     HTTP.send(200, "text/plain", "OK");
@@ -158,8 +164,34 @@ void handleFileList() {
     HTTP.send(200, "text/json", output);
 }
 
+// Вывод данных config.json 
+void handle_ConfigJSON() {
+    time_t tn = now();                  // Получение времени на контроллере
+    DynamicJsonDocument jsonDoc(1024);      
+    // Заполняем поля json
+    jsonDoc["SSDP"]         = SSDP_Name;
+    jsonDoc["ssidAP"]       = ssidAP;
+    jsonDoc["passwordAP"]   = passwdAP;
+    jsonDoc["ssid"]         = ssid;
+    jsonDoc["password"]     = passwd;
+    jsonDoc["timezone"]     = timezone;
+    if (WiFi.status() != WL_CONNECTED)  {
+        jsonDoc["ip"]       = WiFi.softAPIP().toString(); 
+    } else {
+        jsonDoc["ip"]       = WiFi.localIP().toString();
+    }
+    jsonDoc["time"]         = GetTime();
+    jsonDoc["date"]         = GetDate();
+    jsonDoc["ntpserver"]    = NtpName; 
+    // Помещаем созданный json в переменную root
+    String htmlOut;
+    serializeJson(jsonDoc, htmlOut);
+    HTTP.send(200, "text/json", htmlOut);
+}
+
 void HTTP_init(void) {
-    // Главная страница http://IP/
+    // Формирование configs.json страницы для передачи данных в web интерфейс
+    HTTP.on("/configs.json", handle_ConfigJSON);
     // Перезагрузка модуля по запросу вида http://IP/restart?rst=ok
     HTTP.on("/rst", handle_Restart);
     // Синхронизация времени устройства по запросу вида http://IP/time
