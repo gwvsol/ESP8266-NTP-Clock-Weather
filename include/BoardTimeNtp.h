@@ -84,7 +84,7 @@ void timeSynch() {
 
 // Начальная инициализация времени при включении
 void Time_init() {
-    sNtpServerName.toCharArray(ntpServerName, sizeof(ntpServerName));
+    NtpName.toCharArray(ntpServerName, sizeof(ntpServerName));
     Serial.println("Starting UDP service");           // "Включаем поддержку UDP сервиса"
     Udp.begin(localPort);
     Serial.print("Set Local port: ");                 // "Локальный порт: "
