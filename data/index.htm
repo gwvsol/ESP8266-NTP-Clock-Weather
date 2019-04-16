@@ -15,7 +15,9 @@
             <h2 style="margin:50px;">Интернет-часы</h2>
             <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
                <h5 class="alert-info" id="ssdp_t">{{SSDP}}</h5><br><h5 class="alert-info" id="ip_t">{{ip}}</h5>
-               <h4>На устройстве сейчас</h4><strong id="time">{{time}}</strong><br>Date: <strong id="date">{{date}}</strong>
+               <a class="btn btn-block btn-default" href="/setting.htm" target="_blank">Настройка</a>
+               <h4 class="btn btn-block btn-primary" id="time"> {{time}}</h4>
+               <span class="btn btn-block btn-primary" id="date"> {{date}}</span>
                <input class="btn btn-block btn-primary" value="Синхронизировать время" onclick="load_time(this);" type="submit">
                <hr>
                <h3>Будильники</h3>
