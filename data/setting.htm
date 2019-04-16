@@ -1,121 +1,116 @@
 <!DOCTYPE html>
 <html lang="ru">
- <head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" href="/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/style.css">
-  <script type="text/javascript" src="/function.js"></script>
-  <script type="text/javascript" src="/function1.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Интернет-часы/настройки</title>
-  <!--<script type="text/javascript">
-  </script>-->
- </head>
-  <body onload="load();">
-  <div class="container">
-   <div class="row" style="text-align:center;">
-    <h2 style="margin:50px;">Интернет-часы/настройки</h2>
-	<div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-	 <hr>
-     <h3>Временная зона GMT</h3>
-     <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="time_zone(this);" type="submit">
-     <input class="btn btn-block btn-primary" value="Авто определение и сохранение зоны" onclick="set_time_zone(this);" type="submit">
-     <hr>
-     <h3>NTP сервер</h3>
-     <input id="ntpserver" value="{{ntpserver}}" pattern="[0-9a-zA-Z.-]{1,500}" class="form-control" placeholder="us.pool.ntp.org">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ntp_server(this);" type="submit">
-     <hr>	 	 
-     <h3>Установка времени</h3>
-     <div class="row">
-      <div class="col-sm-6">
-		<input id="time_h" value="{{time_h}}" pattern="[0-9]{1,3}" class="form-control">
-		<input id="time_m" value="{{time_m}}" pattern="[0-9]{1,3}" class="form-control">
-		<input id="time_s" value="{{time_s}}" pattern="[0-9]{1,3}" class="form-control">
-		<input class="btn btn-block btn-success" value="Установить" onclick="set_new_time(this,'Если включена синхонизация с NTP, она будет отключена. Установить время?');" type="submit">
+   <head>
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+      <link rel="stylesheet" href="/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/style.css">
+      <script type="text/javascript" src="/function.js"></script>
+      <script type="text/javascript" src="/function1.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Интернет-часы/настройки</title>
+   </head>
+   <body onload="load();">
+      <div class="container">
+         <div class="row" style="text-align:center;">
+            <h2 style="margin:50px;">Интернет-часы<br><br>Настройка</h2>
+            <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+               <a class="btn btn-block btn-default" href="/" target="_blank">Главная страница</a>
+               <hr>
+               <h3>Временная зона GMT</h3>
+               <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="time_zone(this);" type="submit">
+               <input class="btn btn-block btn-primary" value="Авто определение и сохранение зоны" onclick="set_time_zone(this);" type="submit">
+               <hr>
+               <h3>NTP сервер</h3>
+               <input id="ntpserver" value="{{ntpserver}}" pattern="[0-9a-zA-Z.-]{1,500}" class="form-control" placeholder="us.pool.ntp.org">
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ntp_server(this);" type="submit">
+               <hr>	 	 
+               <h3>Установка времени</h3>
+               <div class="row">
+                  <div class="col-sm-6">
+                     <input id="time_h" value="{{time_h}}" pattern="[0-9]{1,3}" class="form-control">
+                     <input id="time_m" value="{{time_m}}" pattern="[0-9]{1,3}" class="form-control">
+                     <input id="time_s" value="{{time_s}}" pattern="[0-9]{1,3}" class="form-control">
+                     <input class="btn btn-block btn-success" value="Установить" onclick="set_new_time(this,'Если включена синхонизация с NTP, она будет отключена. Установить время?');" type="submit">
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="alert alert-dismissible alert-warning">Здесь вы можете установить время или </div>
+                     <input type="checkbox" id="use_sync" value="{{use_sync}}" class="form-control" onchange="set_ntp(this);" {{use_sync}}>включить синхронизацию с NTP
+                  </div>
+               </div>	
+               <hr>
+               <h3>Установки погодного сервера</h3>
+               <div class="row">
+                  <div class="col-sm-6">
+                     <input id="city_code" value="{{city_code}}" pattern="[0-9]{6,6}" class="form-control" placeholder="Код города">
+                     <input id="w_api" value="{{w_api}}" pattern=".{1,100}" class="form-control" placeholder="API">
+                     <input class="btn btn-block btn-success" value="Установить" onclick="set_weather(this);" type="submit">
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="alert alert-dismissible alert-warning">Получать погоду для города (введите цифровой код города. Список кодов вы можете посмотреть <a href="http://bulk.openweathermap.org/sample/city.list.json.gz" target="_blank">на этой странице</a>)</div>
+                  </div>
+               </div>	
+               <hr>		 
+               <h3>Подключение к Wi-Fi</h3>
+               <div class="row">
+                  <div class="col-sm-6">
+                     <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя WiFi сети">
+                     <input id="password" value="{{password}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+                     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid(this);" type="submit">
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="alert alert-dismissible alert-warning">
+                        <span><strong>Пожалуйста подключитесь к своей локальной сети (Wi-Fi).</strong><br>
+                           Это позволит управлять часами и получать точное время из Интернет (NTP)
+                        </span>
+                     </div>
+                  </div>
+               </div>	
+               <hr>		 	 
+               <h3>Точка доступа</h3>
+               <div class="row">
+                  <div class="col-sm-6">
+                     <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя Wi-Fi сети">
+                     <input id="passwordAp" value="{{passwordAP}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+                     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid_ap(this);" type="submit">
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="alert alert-dismissible alert-warning">Устройство может создать свою точку доступа к которой можно подключиться через Wi-Fi для управления часами</div>
+                  </div>
+               </div>
+               <hr>
+               <h3>Имя устройства (часов) в локальной сети</h3>
+               <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. -]{1,20}" placeholder="Имя устройства">
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssdp(this);" type="submit">
+               <hr>
+               <h3>Язык</h3>
+               <div class="row">
+                  <div class="col-sm-6">
+                     <select id="lang_sel" class="form-control">
+                        <option selected value="0">Русский</option>
+                        <option value="1">Български</option>
+                        <option value="2">English</option>
+                     </select>
+                     <input class="btn btn-block btn-success" value="Выбрать" onclick="set_lang(this);" type="submit">
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="alert alert-dismissible alert-warning">Выберете язык на котором будут отображаться сообщения на устройстве</div>
+                  </div>
+               </div>
+               <hr>	 
+               <div class="alert alert-dismissible alert-info">
+                     <b>Обновление прошивки часов (загрузка файлов .bin)</b>
+                     <form method="POST" action="/update" enctype="multipart/form-data">
+                        <div class="btn-group">
+                           <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
+                           <input type="submit" class="btn btn-default btn-sm" value="загрузить" onclick="this.value='Подождите...';" style="height: 33px;">
+                        </div>
+                     </form>
+                     <!-- <strong><a href="/edit" target="_blank">Загрузка файлов HTML</a></strong> -->
+               </div>
+               <input class="btn btn-block btn-warning" value="Перезагрузить устройство" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
+            </div>
+         </div>
       </div>
-      <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">Здесь вы можете установить время или </div>
-	   <input type="checkbox" id="use_sync" value="{{use_sync}}" class="form-control" onchange="set_ntp(this);" {{use_sync}}>включить синхронизацию с NTP
-      </div>
-     </div>	
-	 <hr>
-     <h3>Установки погодного сервера</h3>
-     <div class="row">
-      <div class="col-sm-6">
-		<input id="city_code" value="{{city_code}}" pattern="[0-9]{6,6}" class="form-control" placeholder="Код города">
-		<input id="w_api" value="{{w_api}}" pattern=".{1,100}" class="form-control" placeholder="API">
-		<input class="btn btn-block btn-success" value="Установить" onclick="set_weather(this);" type="submit">
-      </div>
-      <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">Получать погоду для города (введите цифровой код города. Список кодов вы можете посмотреть <a href="http://bulk.openweathermap.org/sample/city.list.json.gz" target="_blank">на этой странице</a>)</div>
-      </div>
-     </div>	
-	 <hr>		 
-	<h3>Подключение к Wi-Fi</h3>
-     <div class="row">
-      <div class="col-sm-6">
-		<input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя WiFi сети">
-		<input id="password" value="{{password}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
-		<input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid(this);" type="submit">
-      </div>
-      <div class="col-sm-6">
-		<div class="alert alert-dismissible alert-warning"><strong>Пожалуйста подключитесь к своей локальной сети (Wi-Fi).</strong>
-		Это позволит управлять часами и получать точное время из Интернет (NTP)
-		</div>	 
-      </div>
-     </div>	
-	 <hr>		 	 
-     <h3>Точка доступа</h3>
-     <div class="row">
-      <div class="col-sm-6">
-       <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя Wi-Fi сети">
-       <input id="passwordAp" value="{{passwordAP}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
-       <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid_ap(this);" type="submit">
-      </div>
-      <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">Устройство может создать свою точку доступа к которой можно подключиться через Wi-Fi для управления часами</div>
-      </div>
-     </div>
-     <hr>
-	 <h3>Имя устройства (часов) в локальной сети</h3>
-     <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. -]{1,20}" placeholder="Имя устройства">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssdp(this);" type="submit">
-     <hr>
-     <h3>Язык</h3>
-     <div class="row">
-      <div class="col-sm-6">
-		<select id="lang_sel" class="form-control">
-		<option value="2">English</option>
-		<option selected value="1">Български</option>
-		<option value="0">Русский</option>
-		</select>
-       <input class="btn btn-block btn-success" value="Выбрать" onclick="set_lang(this);" type="submit">
-      </div>
-      <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">Выберете язык на котором будут отображаться сообщения на устройстве</div>
-      </div>
-     </div>
-     <hr>	 
-     <div class="alert alert-dismissible alert-info">
-      <b>Обновление прошивки часов (загрузка файлов .bin)</b>
-      <form method="POST" action="/update" enctype="multipart/form-data">
-       <div class="btn-group">
-        <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
-        <input type="submit" class="btn btn-default btn-sm" value="загрузить" onclick="this.value='Подождите...';" style="height: 33px;">
-       </div>
-      </form>
-	  <strong><a href="/edit" target="_blank">Загрузка файлов HTML</a></strong>
-     </div>
-<!--2-->	 
-     <input class="btn btn-block btn-warning" value="Перезагрузить устройство" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
-
-
-
-
-	 
-	</div>
-   </div>
-  </div>
- </body>
+   </body>
 </html>	
