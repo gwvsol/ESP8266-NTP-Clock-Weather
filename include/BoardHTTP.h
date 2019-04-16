@@ -183,10 +183,40 @@ void handle_ConfigJSON() {
     jsonDoc["time"]         = GetTime();
     jsonDoc["date"]         = GetDate();
     jsonDoc["ntpserver"]    = NtpName; 
+    jsonDoc["lang"]         = lang;
     // Помещаем созданный json в переменную root
     String htmlOut;
     serializeJson(jsonDoc, htmlOut);
     HTTP.send(200, "text/json", htmlOut);
+}
+
+// Установка SSDP имени по запросу вида http://IP/ssdp?ssdp=proba
+void handle_Set_Ssdp() {
+    SSDP_Name = HTTP.arg("ssdp");       // Получаем значение ssdp из запроса сохраняем в глобальной переменной
+    SaveConFig();                       // Функция сохранения данных во Flash
+    HTTP.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+}
+
+// Установить имя и пароль AP по запросу вида http://IP/ssidap?ssidAP=home1&passwordAP=8765439
+void handle_Set_Ssidap() {       
+    ssidAP = HTTP.arg("ssidAP");         // Получаем значение ssidAP из запроса сохраняем в глобальной переменной
+    passwdAP = HTTP.arg("passwordAP");   // Получаем значение passwordAP из запроса сохраняем в глобальной переменной
+    SaveConFig();                        // Функция сохранения данных во Flash
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Установить имя и пароль роутера по запросу вида http://IP/ssid?ssid=home2&password=12345678
+void handle_Set_Ssid() {
+    ssid = HTTP.arg("ssid");             // Получаем значение ssid из запроса сохраняем в глобальной переменной
+    passwd = HTTP.arg("password");       // Получаем значение password из запроса сохраняем в глобальной переменной
+    SaveConFig();                        // Функция сохранения данных во Flash
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+// Установка языка системы по запросу вида http://IP/lang?lang=0 //0-RU, 1-BG, 2 -EN
+void handle_Set_Lang() {
+    lang = HTTP.arg("lang").toInt();
+    SaveConFig();
+    HTTP.send(200, "text/plain", "OK");
 }
 
 void HTTP_init(void) {
@@ -194,6 +224,14 @@ void HTTP_init(void) {
     HTTP.on("/configs.json", handle_ConfigJSON);
     // Перезагрузка модуля по запросу вида http://IP/restart?rst=ok
     HTTP.on("/rst", handle_Restart);
+    // Установить имя и пароль роутера по запросу вида http://IP/ssid?ssid=home2&password=12345678
+    HTTP.on("/ssid", handle_Set_Ssid);
+    // Установить имя и пароль AP по запросу вида http://IP/ssidap?ssidAP=home1&passwordAP=8765439
+    HTTP.on("/ssidap", handle_Set_Ssidap);
+    // Установить имя SSDP устройства по запросу вида http://IP/ssdp?ssdp=proba
+    HTTP.on("/ssdp", handle_Set_Ssdp);
+    // Установка языка системы по запросу вида http://IP/lang?lang=0 //0-RU, 1-BG, 2 -EN
+    HTTP.on("/lang", handle_Set_Lang);
     // Синхронизация времени устройства по запросу вида http://IP/time
     HTTP.on("/time", handle_Time);
     // Установка временной зоны по запросу вида http://IP/timez?timez=3
