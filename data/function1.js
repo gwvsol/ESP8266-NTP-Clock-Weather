@@ -109,9 +109,10 @@
     alert("Ok");
    }  
    function set_lang(submit){
-    server = "/lang?lang="+val('lang_sel');
-    send_request(submit,server);
-    alert("Ok");
+        var selectedOption = document.getElementById('lang_sel').value;
+        server = "/lang?lang="+selectedOption;
+        send_request(submit,server);
+        alert("Изменения вступят в силу после перезагрузки. Пожалуйста перезагрузите устройство.");
    }      
    function set_alarm1(submit){
 		server = "/setalarm1?alarm1_h="+val('alarm1_h')+"&alarm1_m="+val('alarm1_m');
