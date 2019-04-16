@@ -74,10 +74,10 @@ String GetDate() {
 
 void timeSynch() {
     setSyncInterval(300);
-    if (WiFi.status() == WL_CONNECTED) { // Синхронизируем время, только если есть подключение к WiFi
-        setSyncProvider(getNtpTime);
-    }
-    Serial.println("ITime Ready!");
+    // Синхронизируем время, только если есть подключение к WiFi
+    if (WiFi.status() == WL_CONNECTED) {
+        setSyncProvider(getNtpTime); }
+    Serial.println("I Time Ready!");
     Serial.println(GetTime());
     Serial.println(GetDate());
 }
@@ -89,6 +89,6 @@ void Time_init() {
     Udp.begin(localPort);
     Serial.print("Set Local port: ");                 // "Локальный порт: "
     Serial.println(Udp.localPort());
-    Serial.println("Waiting for sync Time");          // "Ожидаем синхронизации времени"
+    Serial.println("Waiting for sync Time...");       // "Ожидаем синхронизации времени"
     timeSynch();
 }

@@ -59,10 +59,41 @@ void handle_ntp_server() {
     HTTP.send(200, "text/plain", "OK");
 }
 
+// Установка SSDP имени по запросу вида http://IP/ssdp?ssdp=proba
+void handle_Set_Ssdp() {
+    SSDP_Name = HTTP.arg("ssdp");       // Получаем значение ssdp из запроса сохраняем в глобальной переменной
+    SaveConFig();                       // Функция сохранения данных во Flash
+    HTTP.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+}
+
+// Установить имя и пароль AP по запросу вида http://IP/ssidap?ssidAP=home1&passwdAP=8765439
+void handle_Set_Ssidap() {       
+    ssidAP = HTTP.arg("ssidAP");         // Получаем значение ssidAP из запроса сохраняем в глобальной переменной
+    passwdAP = HTTP.arg("passwordAP");   // Получаем значение passwordAP из запроса сохраняем в глобальной переменной
+    SaveConFig();                        // Функция сохранения данных во Flash
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Установить имя и пароль роутера по запросу вида http://IP/ssid?ssid=home2&passwd=12345678
+void handle_Set_Ssid() {
+    ssid = HTTP.arg("ssid");             // Получаем значение ssid из запроса сохраняем в глобальной переменной
+    passwd = HTTP.arg("password");       // Получаем значение password из запроса сохраняем в глобальной переменной
+    SaveConFig();                        // Функция сохранения данных во Flash
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Установка языка системы по запросу вида http://IP/lang?lang=0 //0-RU, 1-BG, 2 -EN
+void handle_Set_Lang() {
+    lang = HTTP.arg("lang").toInt();
+    SaveConFig();
+    HTTP.send(200, "text/plain", "OK");
+}
+
 // Методы для работы с SPIFFS
 String getContentType(String filename) {
-    if (HTTP.hasArg("download")) return "application/octet-stream";
-    else if (filename.endsWith(".htm")) return "text/html";
+    //if (HTTP.hasArg("download")) return "application/octet-stream";
+    //else if (filename.endsWith(".htm")) return "text/html";
+    if (filename.endsWith(".htm")) return "text/html";
     else if (filename.endsWith(".html")) return "text/html";
     else if (filename.endsWith(".json")) return "application/json";
     else if (filename.endsWith(".css")) return "text/css";
@@ -93,80 +124,80 @@ bool handleFileRead(String path) {
     return false;
 }
 
-void handleFileUpload() {
-    if (HTTP.uri() != "/edit") return;
-    HTTPUpload& upload = HTTP.upload();
-    if (upload.status == UPLOAD_FILE_START) {
-        String filename = upload.filename;
-        if (!filename.startsWith("/")) filename = "/" + filename;
-        fsUploadFile = SPIFFS.open(filename, "w");
-        filename = String();
-    } else if (upload.status == UPLOAD_FILE_WRITE) {
-        //DBG_OUTPUT_PORT.print("handleFileUpload Data: "); DBG_OUTPUT_PORT.println(upload.currentSize);
-        if (fsUploadFile)
-        fsUploadFile.write(upload.buf, upload.currentSize);
-    } else if (upload.status == UPLOAD_FILE_END) {
-        if (fsUploadFile)
-        fsUploadFile.close();
-    }
-}
+//void handleFileUpload() {
+//    if (HTTP.uri() != "/edit") return;
+//    HTTPUpload& upload = HTTP.upload();
+//    if (upload.status == UPLOAD_FILE_START) {
+//        String filename = upload.filename;
+//        if (!filename.startsWith("/")) filename = "/" + filename;
+//        fsUploadFile = SPIFFS.open(filename, "w");
+//        filename = String();
+//    } else if (upload.status == UPLOAD_FILE_WRITE) {
+//        //DBG_OUTPUT_PORT.print("handleFileUpload Data: "); DBG_OUTPUT_PORT.println(upload.currentSize);
+//        if (fsUploadFile)
+//        fsUploadFile.write(upload.buf, upload.currentSize);
+//    } else if (upload.status == UPLOAD_FILE_END) {
+//        if (fsUploadFile)
+//        fsUploadFile.close();
+//    }
+//}
 
-void handleFileDelete() {
-    if (HTTP.args() == 0) return HTTP.send(500, "text/plain", "BAD ARGS");
-    String path = HTTP.arg(0);
-    if (path == "/")
-        return HTTP.send(500, "text/plain", "BAD PATH");
-    if (!SPIFFS.exists(path))
-        return HTTP.send(404, "text/plain", "FileNotFound");
-    SPIFFS.remove(path);
-    HTTP.send(200, "text/plain", "");
-    path = String();
-}
+//void handleFileDelete() {
+//    if (HTTP.args() == 0) return HTTP.send(500, "text/plain", "BAD ARGS");
+//    String path = HTTP.arg(0);
+//    if (path == "/")
+//        return HTTP.send(500, "text/plain", "BAD PATH");
+//    if (!SPIFFS.exists(path))
+//        return HTTP.send(404, "text/plain", "FileNotFound");
+//    SPIFFS.remove(path);
+//    HTTP.send(200, "text/plain", "");
+//    path = String();
+//}
 
-void handleFileCreate() {
-    if (HTTP.args() == 0)
-        return HTTP.send(500, "text/plain", "BAD ARGS");
-    String path = HTTP.arg(0);
-    if (path == "/")
-        return HTTP.send(500, "text/plain", "BAD PATH");
-    if (SPIFFS.exists(path))
-        return HTTP.send(500, "text/plain", "FILE EXISTS");
-    File file = SPIFFS.open(path, "w");
-    if (file)
-        file.close();
-    else
-        return HTTP.send(500, "text/plain", "CREATE FAILED");
-    HTTP.send(200, "text/plain", "");
-    path = String();
-}
+//void handleFileCreate() {
+//    if (HTTP.args() == 0)
+//        return HTTP.send(500, "text/plain", "BAD ARGS");
+//    String path = HTTP.arg(0);
+//    if (path == "/")
+//        return HTTP.send(500, "text/plain", "BAD PATH");
+//    if (SPIFFS.exists(path))
+//        return HTTP.send(500, "text/plain", "FILE EXISTS");
+//    File file = SPIFFS.open(path, "w");
+//    if (file)
+//        file.close();
+//    else
+//        return HTTP.send(500, "text/plain", "CREATE FAILED");
+//    HTTP.send(200, "text/plain", "");
+//    path = String();
+//}
 
-void handleFileList() {
-    if (!HTTP.hasArg("dir")) {
-        HTTP.send(500, "text/plain", "BAD ARGS");
-        return;
-    }
-    String path = HTTP.arg("dir");
-    Dir dir = SPIFFS.openDir(path);
-    path = String();
-    String output = "[";
-    while (dir.next()) {
-        File entry = dir.openFile("r");
-        if (output != "[") output += ',';
-        bool isDir = false;
-        output += "{\"type\":\"";
-        output += (isDir) ? "dir" : "file";
-        output += "\",\"name\":\"";
-        output += String(entry.name()).substring(1);
-        output += "\"}";
-        entry.close();
-    }
-    output += "]";
-    HTTP.send(200, "text/json", output);
-}
+//void handleFileList() {
+//    if (!HTTP.hasArg("dir")) {
+//        HTTP.send(500, "text/plain", "BAD ARGS");
+//        return;
+//    }
+//    String path = HTTP.arg("dir");
+//    Dir dir = SPIFFS.openDir(path);
+//    path = String();
+//    String output = "[";
+//    while (dir.next()) {
+//        File entry = dir.openFile("r");
+//        if (output != "[") output += ',';
+//        bool isDir = false;
+//        output += "{\"type\":\"";
+//        output += (isDir) ? "dir" : "file";
+//        output += "\",\"name\":\"";
+//        output += String(entry.name()).substring(1);
+//        output += "\"}";
+//        entry.close();
+//    }
+//    output += "]";
+//    HTTP.send(200, "text/json", output);
+//}
 
 // Вывод данных config.json 
 void handle_ConfigJSON() {
-    time_t tn = now();                  // Получение времени на контроллере
+    time_t tn = now();                  // Получение времени на микроконтроллере
     DynamicJsonDocument jsonDoc(1024);      
     // Заполняем поля json
     jsonDoc["SSDP"]         = SSDP_Name;
@@ -180,6 +211,10 @@ void handle_ConfigJSON() {
     } else {
         jsonDoc["ip"]       = WiFi.localIP().toString();
     }
+    jsonDoc["use_sync"]     = "checked";
+    jsonDoc["time_h"]       = String(hour(tn));
+    jsonDoc["time_m"]       = String(minute(tn));
+    jsonDoc["time_s"]       = String(second(tn));
     jsonDoc["time"]         = GetTime();
     jsonDoc["date"]         = GetDate();
     jsonDoc["ntpserver"]    = NtpName; 
@@ -190,35 +225,7 @@ void handle_ConfigJSON() {
     HTTP.send(200, "text/json", htmlOut);
 }
 
-// Установка SSDP имени по запросу вида http://IP/ssdp?ssdp=proba
-void handle_Set_Ssdp() {
-    SSDP_Name = HTTP.arg("ssdp");       // Получаем значение ssdp из запроса сохраняем в глобальной переменной
-    SaveConFig();                       // Функция сохранения данных во Flash
-    HTTP.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
-}
-
-// Установить имя и пароль AP по запросу вида http://IP/ssidap?ssidAP=home1&passwordAP=8765439
-void handle_Set_Ssidap() {       
-    ssidAP = HTTP.arg("ssidAP");         // Получаем значение ssidAP из запроса сохраняем в глобальной переменной
-    passwdAP = HTTP.arg("passwordAP");   // Получаем значение passwordAP из запроса сохраняем в глобальной переменной
-    SaveConFig();                        // Функция сохранения данных во Flash
-    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
-}
-
-// Установить имя и пароль роутера по запросу вида http://IP/ssid?ssid=home2&password=12345678
-void handle_Set_Ssid() {
-    ssid = HTTP.arg("ssid");             // Получаем значение ssid из запроса сохраняем в глобальной переменной
-    passwd = HTTP.arg("password");       // Получаем значение password из запроса сохраняем в глобальной переменной
-    SaveConFig();                        // Функция сохранения данных во Flash
-    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
-}
-// Установка языка системы по запросу вида http://IP/lang?lang=0 //0-RU, 1-BG, 2 -EN
-void handle_Set_Lang() {
-    lang = HTTP.arg("lang").toInt();
-    SaveConFig();
-    HTTP.send(200, "text/plain", "OK");
-}
-
+// Метод инициализации Web сервиса
 void HTTP_init(void) {
     // Формирование configs.json страницы для передачи данных в web интерфейс
     HTTP.on("/configs.json", handle_ConfigJSON);
@@ -238,27 +245,28 @@ void HTTP_init(void) {
     HTTP.on("/timez", handle_time_zone);
     // Установка нового NTP сервера по запросу вида http://IP/setntp?setntpz=us.pool.ntp.org
     HTTP.on("/setntp", handle_ntp_server);
-    // HTTP страницы для работы с SPIFFS
-    HTTP.on("/list", HTTP_GET, handleFileList);     // list directory
-    HTTP.on("/edit", HTTP_GET, []() {
-        if (!handleFileRead("/edit.htm")) HTTP.send(404, "text/plain", "FileNotFound");
-    });                                                 // Загрузка редактора editor
-    HTTP.on("/edit", HTTP_PUT, handleFileCreate);       // Создание файла
-    HTTP.on("/edit", HTTP_DELETE, handleFileDelete);    // Удаление файла
-    // first callback is called after the request has ended with all parsed arguments
-    // second callback handles file uploads at that location
-    HTTP.on("/edit", HTTP_POST, []() {
-        HTTP.send(200, "text/plain", "");
-    }, handleFileUpload);
-    // called when the url is not defined here
-    // use it to load content from SPIFFS
-    HTTP.onNotFound([]() {
-        if (!handleFileRead(HTTP.uri()))
-        HTTP.send(404, "text/plain", "FileNotFound");
-    });                                                 // Файл не найден
     // Принудительное сохранение config файла по запросу вида http://IP/save?save=ok
     HTTP.on("/save", save_Config);
     // SSDP дескриптор
     HTTP.on("/description.xml", HTTP_GET, []() {SSDP.schema(HTTP.client()); });
+    //==============================================================================
+    // HTTP страницы для работы с SPIFFS
+    //HTTP.on("/list", HTTP_GET, handleFileList);     // list directory
+    //HTTP.on("/edit", HTTP_GET, []() {
+    //    if (!handleFileRead("/edit.htm")) HTTP.send(404, "text/plain", "FileNotFound");
+    //});                                                 // Загрузка редактора editor
+    //HTTP.on("/edit", HTTP_PUT, handleFileCreate);       // Создание файла
+    //HTTP.on("/edit", HTTP_DELETE, handleFileDelete);    // Удаление файла
+    // first callback is called after the request has ended with all parsed arguments
+    // second callback handles file uploads at that location
+    //HTTP.on("/edit", HTTP_POST, []() {
+    //    HTTP.send(200, "text/plain", "");
+    //}, handleFileUpload);
+    // called when the url is not defined here
+    // use it to load content from SPIFFS
+    HTTP.onNotFound([]() {
+        if (!handleFileRead(HTTP.uri()))
+        HTTP.send(404, "text/plain", "FileNotFound"); });         // Файл не найден
+    //==============================================================================
     HTTP.begin();
 }
