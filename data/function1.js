@@ -17,19 +17,19 @@
     set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
    }
    function load_time(submit){
-    server = "/Time";
+    server = "/time";
     send_request(submit,server);
     load();
    }
    function time_zone(submit){
-    server = "/TimeZone?timezone="+val('timezone');
+    server = "/timez?timez="+val('timezone');
     send_request(submit,server);
    }
    function set_time_zone(submit){
     var set_date = new Date();
     var gmtHours = -set_date.getTimezoneOffset()/60;
     document.getElementById('timezone').value = gmtHours;
-    server = "/TimeZone?timezone="+gmtHours;
+    server = "/timez?timez="+gmtHours;
     send_request(submit,server);
    }
    function set_ssid(submit){
@@ -49,7 +49,7 @@
    }
    function restart(submit,texts){
     if (confirm(texts)) {
-	 server = "/restart?device=ok";
+	 server = "/rst?rst=ok";
      send_request(submit,server);
      return true;
     } else {
@@ -84,7 +84,7 @@
 	window.location.reload();
    }      
    function set_ntp_server(submit){
-    server = "/setntpserver?ntpserver="+val('ntpserver');
+    server = "/setntp?setntp="+val('ntpserver');
     send_request(submit,server);
 	alert("Ok");
    }     
