@@ -88,6 +88,7 @@ void handle_ntp_server() {
     HTTP.send(200, "text/plain", "OK");
 }
 
+// Установка настроек будильника 1 по запросу вида http://IP/setalarm1?alarm1_h=12&alarm1_m=45
 void handle_set_alarm1() {
     alarm1_hour = HTTP.arg("alarm1_h").toInt(); 
     alarm1_minute = HTTP.arg("alarm1_m").toInt();
@@ -97,6 +98,7 @@ void handle_set_alarm1() {
     HTTP.send(200, "text/plain", "OK");                  // отправляем ответ о выполнении
 }
 
+// Включение/выключение будильника 1 по запросу вида http://IP/usealarm1?use_alarm1=1 (выключение use_alarm1=0)
 void handle_use_alarm1(){
     useAlarm1 = HTTP.arg("use_alarm1").toInt();
     SaveConFig();
@@ -104,6 +106,7 @@ void handle_use_alarm1(){
     HTTP.send(200, "text/plain", "OK");                 // отправляем ответ о выполнении
 }
 
+// Установка настроек будильника 2 по запросу вида http://IP/setalarm2?alarm2_h=12&alarm2_m=45
 void handle_set_alarm2() {
     alarm2_hour = HTTP.arg("alarm2_h").toInt(); 
     alarm2_minute = HTTP.arg("alarm2_m").toInt();
@@ -113,6 +116,7 @@ void handle_set_alarm2() {
     HTTP.send(200, "text/plain", "OK");                 // отправляем ответ о выполнении
 }
 
+// Включение/выключение будильника 2 по запросу вида http://IP/usealarm2?use_alarm2=1 (выключение use_alarm2=0)
 void handle_use_alarm2(){
     useAlarm2 = HTTP.arg("use_alarm2").toInt();
     SaveConFig();
@@ -147,7 +151,41 @@ void handle_Set_Ssid() {
 void handle_Set_Lang() {
     lang = HTTP.arg("lang").toInt();
     SaveConFig();
-    HTTP.send(200, "text/plain", "OK");
+    //strWeather = GetWeather(); //Поменяли язык, надо запросить данные о погоде на соотв.языке
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Получаем значение яркости экрана по запросу вида http://IP/setbright?bright=3
+void handle_Brightness() {
+    brightness = HTTP.arg("bright").toInt();
+    saveConfig();
+    //matrix.setIntensity(brightness); // Передача настроек на экран
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Получаем значение скорости вывода информации на экран
+// по запросу http://IP/setspeed?speed_d=100
+void handle_Speed() {
+    delaySym = 210 - HTTP.arg("speed_d").toInt();
+    saveConfig();
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Получаем произвольную строку для вывода на экран
+// по запросу http://IP/setspeed?text1=test-test
+void handle_Text() {
+    strText[2] = HTTP.arg("text1");
+    saveConfig();
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Получаем значение настроек о получении погоды с сервера
+// по запросу http://IP/weather?city_code=city_code&w_api=w_api
+void handle_Weather() {
+    city_id = HTTP.arg("city_code");
+    w_api = HTTP.arg("w_api");
+    saveConfig();
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
 
 // Методы для работы с SPIFFS
@@ -335,10 +373,22 @@ void HTTP_init(void) {
     HTTP.on("/setntp", handle_ntp_server);
     // Принудительное сохранение config файла по запросу вида http://IP/save?save=ok
     HTTP.on("/save", save_Config);
-    HTTP.on("/setalarm1", handle_set_alarm1);     // Set Alarm1
-    HTTP.on("/usealarm1", handle_use_alarm1);     // Set Alarm1
-    HTTP.on("/setalarm2", handle_set_alarm2);     // Set Alarm2
-    HTTP.on("/usealarm2", handle_use_alarm2);     // Set Alarm2
+    // Установка настроек будильника 1 по запросу вида http://IP/setalarm1?alarm1_h=12&alarm1_m=45
+    HTTP.on("/setalarm1", handle_set_alarm1);
+    // Включение/выключение будильника 1 по запросу вида http://IP/usealarm1?use_alarm1=1 (выключение use_alarm1=0)
+    HTTP.on("/usealarm1", handle_use_alarm1);
+    // Установка настроек будильника 2 по запросу вида http://IP/setalarm2?alarm2_h=12&alarm2_m=45
+    HTTP.on("/setalarm2", handle_set_alarm2);
+    // Включение/выключение будильника 2 по запросу вида http://IP/usealarm2?use_alarm2=1 (выключение use_alarm2=0)
+    HTTP.on("/usealarm2", handle_use_alarm2);
+    // Установка яркости экрана часов
+    HTTP.on("/setbright", handle_Brightness);
+    // Установка скорости информации на экране
+    HTTP.on("/setspeed", handle_Speed);
+    // Установка произвольного текста на экране 
+    HTTP.on("/text", handle_Text);
+    // Установка настроек погоды
+    HTTP.on("/weather", handle_Weather);
     // SSDP дескриптор
     HTTP.on("/description.xml", HTTP_GET, []() {SSDP.schema(HTTP.client()); });
     //==============================================================================
