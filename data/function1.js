@@ -125,6 +125,7 @@ function set_lang(submit){
     window.location.reload();
 }
 
+// Установка будильника 1
 function set_alarm1(submit){
     server = "/setalarm1?alarm1_h="+val('alarm1_h')+"&alarm1_m="+val('alarm1_m');
     send_request(submit,server);
@@ -133,6 +134,7 @@ function set_alarm1(submit){
     window.location.reload();
 }
 
+// Включение/выключение будильника 1
 function on_alarm1(submit){
     var usealarm1 = 1;
     var checkbox = document.getElementById('use_alarm1');
@@ -147,6 +149,7 @@ function on_alarm1(submit){
     window.location.reload();
 }
 
+// Установка будильника 2
 function set_alarm2(submit){
     server = "/setalarm2?alarm2_h="+val('alarm2_h')+"&alarm2_m="+val('alarm2_m');
     send_request(submit,server);
@@ -155,6 +158,7 @@ function set_alarm2(submit){
     window.location.reload();
 }
 
+// Включение/выключение будильника 2
 function on_alarm2(submit){
     var usealarm2 = 1;
     var checkbox = document.getElementById('use_alarm2');
@@ -170,22 +174,22 @@ function on_alarm2(submit){
 }
 
 function set_text1(submit){
-server = "/text?text1="+val('text1');
-send_request(submit,server);
-alert("Ok");
+    server = "/text?text1="+val('text1');
+    send_request(submit,server);
+    alert("Ok");
 }  
 function set_bright(submit){
-server = "/setbright?bright="+val('bright');
-send_request(submit,server);
-alert("Ok");
+    server = "/setbright?bright="+val('bright');
+    send_request(submit,server);
+    alert("Ok");
 }
 function set_speed(submit){
-server = "/setspeed?speed_d="+val('speed_d');
-send_request(submit,server);
-alert("Ok");
+    server = "/setspeed?speed_d="+val('speed_d');
+    send_request(submit,server);
+    alert("Ok");
 }
 function set_weather(submit){
-server = "/weather?city_code="+val('city_code')+"&w_api="+val('w_api');
-send_request(submit,server);
-alert("Ok");
+    server = "/weather?city_code="+val('city_code')+"&w_api="+val('w_api');
+    send_request(submit,server);
+    alert("Ok");
 }
