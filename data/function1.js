@@ -20,17 +20,21 @@ function real_time(hours,min,sec) {
     set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
 }
 
+// Синхронизация времения по NTP
 function load_time(submit){
     server = "/time";
     send_request(submit,server);
     load();
+    window.location.reload();
 }
 
+// Установка временной зоны
 function time_zone(submit){
     server = "/timez?timez="+val('timezone');
     send_request(submit,server);
 }
 
+// Установка временной зоны по дате из компьютера
 function set_time_zone(submit){
     var set_date = new Date();
     var gmtHours = -set_date.getTimezoneOffset()/60;
@@ -39,24 +43,28 @@ function set_time_zone(submit){
     send_request(submit,server);
 }
 
-function set_ssid(submit){
-    server = "/ssid?ssid="+val('ssid')+"&passwd="+encodeURIComponent(val('password'));
-    send_request(submit,server);
-    alert("Изменения вступят в силу после перезагрузки. Пожалуйста перезагрузите устройство.");
-}
-
+// Установка SSDP
 function set_ssdp(submit){
     server = "/ssdp?ssdp="+val('ssdp');
     send_request(submit,server);
     document.getElementById('ssdp_t').innerHTML = val('ssdp');
 } 
 
+// Установка SSID для подключения к точке доступа и пароля
+function set_ssid(submit){
+    server = "/ssid?ssid="+val('ssid')+"&passwd="+encodeURIComponent(val('password'));
+    send_request(submit,server);
+    alert("Изменения вступят в силу после перезагрузки. Пожалуйста перезагрузите устройство.");
+}
+
+// Установка SSID для режима AP точки доступа и пароля
 function set_ssid_ap(submit){
     server = "/ssidap?ssidAP="+val('ssidap')+"&passwdAP="+encodeURIComponent(val('passwordAp'));
     send_request(submit,server);
     alert("Изменения вступят в силу после перезагрузки. Пожалуйста перезагрузите устройство.");
 }
 
+// Рестарт системы
 function restart(submit,texts) {
     if (confirm(texts)) {
         server = "/rst?rst=ok";
@@ -67,10 +75,11 @@ function restart(submit,texts) {
     }
 }
 
-// Необходима правка метода
+// Установка времени устройства по запросу вида 
+// http://IP/tset?year=2019&month=12&day=25&hour=15&min=34&sec=45
 function set_new_time(submit, texts) {
     if (confirm(texts)) {
-        server = "/TimeNew?time_h="+val('time_h')+"&time_m="+val('time_m')+"&time_s="+val('time_s');
+        server = "/tset?year="+val('date_y')+"&month="+val('date_m')+"&day="+val('date_d')+"&hour="+val('time_h')+"&min="+val('time_m')+"&sec="+val('time_s');
         send_request(submit,server);
         load_time(submit);
         alert("Ok");
@@ -81,54 +90,39 @@ function set_new_time(submit, texts) {
     }
 }
 
-// Необходима правка метода
+// Включение синхронизации времени устройства по NTP серверу по запросу вида 
+// http://IP/usentp?use_sync=1 (выключение use_sync=0)
 function set_ntp(submit){
-    var usertc = 1;
+    var usentp = 1;
     var checkbox = document.getElementById('use_sync');
     if (checkbox.checked != true){
-        usertc = 1;
+        usentp = 0;
     } else {
-        usertc = 0;
+        usentp = 1;
 }
-    server = "/TimeNtp?use_sync="+usertc;
+    server = "/usentp?use_sync="+usentp;
     send_request(submit,server);
     load_time(submit);
     alert("Ok");
     window.location.reload();
-}      
+}
 
-function set_ntp_server(submit){
+// Установка NTP сервера
+function set_ntp_server(submit, texts){
+    alert(texts)
     server = "/setntp?setntp="+val('ntpserver');
     send_request(submit,server);
     alert("Ok");
+    window.location.reload();
 }
 
+// Установка языка системы
 function set_lang(submit){
     var selectedOption = document.getElementById('lang_sel').value;
     server = "/lang?lang="+selectedOption;
     send_request(submit,server);
     alert("Изменения вступят в силу после перезагрузки. Пожалуйста перезагрузите устройство.");
-}
-
-function set_text1(submit){
-server = "/text?text1="+val('text1');
-send_request(submit,server);
-alert("Ok");
-}  
-function set_bright(submit){
-server = "/setbright?bright="+val('bright');
-send_request(submit,server);
-alert("Ok");
-}  
-function set_speed(submit){
-server = "/setspeed?speed_d="+val('speed_d');
-send_request(submit,server);
-alert("Ok");
-} 
-function set_weather(submit){
-server = "/weather?city_code="+val('city_code')+"&w_api="+val('w_api');
-send_request(submit,server);
-alert("Ok");
+    window.location.reload();
 }
 
 function set_alarm1(submit){
@@ -173,4 +167,25 @@ function on_alarm2(submit){
     send_request(submit,server);
     alert("Ok");
     window.location.reload();
-}            
+}
+
+function set_text1(submit){
+server = "/text?text1="+val('text1');
+send_request(submit,server);
+alert("Ok");
+}  
+function set_bright(submit){
+server = "/setbright?bright="+val('bright');
+send_request(submit,server);
+alert("Ok");
+}
+function set_speed(submit){
+server = "/setspeed?speed_d="+val('speed_d');
+send_request(submit,server);
+alert("Ok");
+}
+function set_weather(submit){
+server = "/weather?city_code="+val('city_code')+"&w_api="+val('w_api');
+send_request(submit,server);
+alert("Ok");
+}
