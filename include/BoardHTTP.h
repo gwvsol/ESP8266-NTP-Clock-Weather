@@ -58,9 +58,9 @@ void handle_TimeSet() {
     uint8_t new_s = HTTP.arg("sec").toInt();
     useNTP = false;
     SaveConFig();
-    setTime(new_h, new_m, new_s, new_d, new_mth, new_y);
+    setTime(new_h, new_m, new_s, new_d, new_mth, new_y); // Установка времени RTC микроконтроллера
     timeSynch();
-    HTTP.send(200, "text/plain", "OK");         // отправляем ответ о выполнении
+    HTTP.send(200, "text/plain", "OK");                  // отправляем ответ о выполнении
 }
 
 // Включение синхронизации времени устройства по NTP серверу по запросу вида http://IP/usentp?use_sync=1 
@@ -74,7 +74,7 @@ void handle_UseNTP() {
     };
     SaveConFig();
     timeSynch();
-    HTTP.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+    HTTP.send(200, "text/plain", "OK");                 // отправляем ответ о выполнении
 }
 
 // Установка нового NTP сервера по запросу вида http://IP/setntp?setntpz=us.pool.ntp.org
@@ -86,6 +86,38 @@ void handle_ntp_server() {
     SaveConFig();
     timeSynch();
     HTTP.send(200, "text/plain", "OK");
+}
+
+void handle_set_alarm1() {
+    alarm1_hour = HTTP.arg("alarm1_h").toInt(); 
+    alarm1_minute = HTTP.arg("alarm1_m").toInt();
+    useAlarm1 = true;
+    SaveConFig();
+    timeSynch();
+    HTTP.send(200, "text/plain", "OK");                  // отправляем ответ о выполнении
+}
+
+void handle_use_alarm1(){
+    useAlarm1 = HTTP.arg("use_alarm1").toInt();
+    SaveConFig();
+    timeSynch();
+    HTTP.send(200, "text/plain", "OK");                 // отправляем ответ о выполнении
+}
+
+void handle_set_alarm2() {
+    alarm2_hour = HTTP.arg("alarm2_h").toInt(); 
+    alarm2_minute = HTTP.arg("alarm2_m").toInt();
+    useAlarm2 = true;
+    SaveConFig();
+    timeSynch();
+    HTTP.send(200, "text/plain", "OK");                 // отправляем ответ о выполнении
+}
+
+void handle_use_alarm2(){
+    useAlarm2 = HTTP.arg("use_alarm2").toInt();
+    SaveConFig();
+    timeSynch();
+    HTTP.send(200, "text/plain", "OK");                 // отправляем ответ о выполнении
 }
 
 // Установка SSDP имени по запросу вида http://IP/ssdp?ssdp=proba
@@ -255,6 +287,20 @@ void handle_ConfigJSON() {
     jsonDoc["date"]         = GetDate();
     jsonDoc["ntpserver"]    = NtpName; 
     jsonDoc["lang"]         = lang;
+    if (useAlarm1) {
+        jsonDoc["use_alarm1"] = "checked";
+    } else {
+        jsonDoc["use_alarm1"] = "";
+    }
+    jsonDoc["alarm1_h"]     = alarm1_hour;
+    jsonDoc["alarm1_m"]     = alarm1_minute;
+    if (useAlarm2) {
+        jsonDoc["use_alarm2"] = "checked";
+    } else {
+        jsonDoc["use_alarm2"] = "";
+    }
+    jsonDoc["alarm2_h"]     = alarm2_hour;
+    jsonDoc["alarm2_m"]     = alarm2_minute;
     // Помещаем созданный json в переменную root
     String htmlOut;
     serializeJson(jsonDoc, htmlOut);
@@ -289,6 +335,10 @@ void HTTP_init(void) {
     HTTP.on("/setntp", handle_ntp_server);
     // Принудительное сохранение config файла по запросу вида http://IP/save?save=ok
     HTTP.on("/save", save_Config);
+    HTTP.on("/setalarm1", handle_set_alarm1);     // Set Alarm1
+    HTTP.on("/usealarm1", handle_use_alarm1);     // Set Alarm1
+    HTTP.on("/setalarm2", handle_set_alarm2);     // Set Alarm2
+    HTTP.on("/usealarm2", handle_use_alarm2);     // Set Alarm2
     // SSDP дескриптор
     HTTP.on("/description.xml", HTTP_GET, []() {SSDP.schema(HTTP.client()); });
     //==============================================================================
