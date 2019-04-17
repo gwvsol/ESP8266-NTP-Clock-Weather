@@ -74,4 +74,17 @@ uint8_t alarm1_hour      = 0;
 uint8_t alarm1_minute    = 0;
 bool useAlarm2           = false;
 uint8_t alarm2_hour      = 0;
-uint8_t alarm2_minute    = 0; 
+uint8_t alarm2_minute    = 0;
+
+// Настройки работы индикатора часов
+uint8_t brightness       = 3;           // Яркость свечения экрана
+uint16_t delaySym        = 30;          // Скорость бегущей строки, задержка сдвига одного символа
+
+
+// Произвольный текст на экране индикатора
+String strText[2];
+
+// Настройки для работы с сервисом погоды
+String strWeather;
+String w_api            = "3527b31fcfc28604386f2f2079e67ac5"; // API для получения погоды
+String city_id           = "732771"; // Коды городоы можно http://bulk.openweathermap.org/sample/city.list.json.gz
