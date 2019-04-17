@@ -48,12 +48,41 @@ void handle_time_zone() {
     HTTP.send(200, "text/plain", "OK");
 }
 
+// Установкаы времени устройства по запросу вида http://IP/tset?year=2019&month=12&day=25&hour=15&min=34&sec=45
+void handle_TimeSet() {
+    uint8_t new_y = HTTP.arg("year").toInt(); 
+    uint8_t new_mth = HTTP.arg("month").toInt();
+    uint8_t new_d = HTTP.arg("day").toInt();
+    uint8_t new_h = HTTP.arg("hour").toInt(); 
+    uint8_t new_m = HTTP.arg("min").toInt();
+    uint8_t new_s = HTTP.arg("sec").toInt();
+    useNTP = false;
+    SaveConFig();
+    setTime(new_h, new_m, new_s, new_d, new_mth, new_y);
+    timeSynch();
+    HTTP.send(200, "text/plain", "OK");         // отправляем ответ о выполнении
+}
+
+// Включение синхронизации времени устройства по NTP серверу по запросу вида http://IP/usentp?use_sync=1 
+// (выключение use_sync=0)
+void handle_UseNTP() {
+    int ntp = HTTP.arg("use_sync").toInt();
+    if (ntp) {
+        useNTP = true;
+    } else {
+        useNTP = false;
+    };
+    SaveConFig();
+    timeSynch();
+    HTTP.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+}
+
 // Установка нового NTP сервера по запросу вида http://IP/setntp?setntpz=us.pool.ntp.org
 void handle_ntp_server() {
-    // Получаем значение нового NTP сервера и сохраняем         
+    // Получаем значение нового NTP сервера и сохраняем
     NtpName = HTTP.arg("setntp").c_str();
     NtpName.toCharArray(ntpServerName, sizeof(ntpServerName));
-    Serial.println(NtpName);
+    useNTP = true;
     SaveConFig();
     timeSynch();
     HTTP.send(200, "text/plain", "OK");
@@ -198,7 +227,7 @@ bool handleFileRead(String path) {
 // Вывод данных config.json 
 void handle_ConfigJSON() {
     time_t tn = now();                  // Получение времени на микроконтроллере
-    DynamicJsonDocument jsonDoc(1024);      
+    DynamicJsonDocument jsonDoc(1024);
     // Заполняем поля json
     jsonDoc["SSDP"]         = SSDP_Name;
     jsonDoc["ssidAP"]       = ssidAP;
@@ -211,7 +240,14 @@ void handle_ConfigJSON() {
     } else {
         jsonDoc["ip"]       = WiFi.localIP().toString();
     }
-    jsonDoc["use_sync"]     = "checked";
+    if (useNTP) {
+        jsonDoc["use_sync"]     = "checked";
+    } else {
+        jsonDoc["use_sync"]     = "";
+    }
+    jsonDoc["date_y"]       = String(year(tn));
+    jsonDoc["date_m"]       = String(month(tn));
+    jsonDoc["date_d"]       = String(day(tn));
     jsonDoc["time_h"]       = String(hour(tn));
     jsonDoc["time_m"]       = String(minute(tn));
     jsonDoc["time_s"]       = String(second(tn));
@@ -241,6 +277,12 @@ void HTTP_init(void) {
     HTTP.on("/lang", handle_Set_Lang);
     // Синхронизация времени устройства по запросу вида http://IP/time
     HTTP.on("/time", handle_Time);
+    // Установка времени устройства по запросу вида 
+    // http://IP/tset?year=2019&month=12&day=25&hour=15&min=34&sec=45
+    HTTP.on("/tset", handle_TimeSet);
+    // Включение синхронизации времени устройства по NTP серверу по запросу вида 
+    // http://IP/usentp?use_sync=1 (выключение use_sync=0)
+    HTTP.on("/usentp", handle_UseNTP);
     // Установка временной зоны по запросу вида http://IP/timez?timez=3
     HTTP.on("/timez", handle_time_zone);
     // Установка нового NTP сервера по запросу вида http://IP/setntp?setntpz=us.pool.ntp.org
