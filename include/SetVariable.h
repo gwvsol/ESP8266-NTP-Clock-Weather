@@ -48,13 +48,14 @@ String Manufacturer   = "LIGHTWELL";
 String ManufacturerURL = "https://led-lightwell.eu";
 
 // Настройки в режиме AP
-IPAddress apIP(192, 168, 4, 1);             // IP адрес
-IPAddress apGate(192, 168, 4, 1);           // IP адрес шлюза
-IPAddress apNetMask(255, 255, 255, 0);      // Маска сети
+IPAddress apIP(192, 168, 4, 1);               // IP адрес
+IPAddress apGate(192, 168, 4, 1);             // IP адрес шлюза
+IPAddress apNetMask(255, 255, 255, 0);        // Маска сети
 
 // Настройка обноления времени с NTP сервера
-String NtpName = "pool.ntp.org";     // NTP сервер по умолчанию // Параметр обновляется с web интерфейса
-uint8_t timezone      = 3;                  // часовой пояс GTM // Параметр обновляется с web интерфейса
+String NtpName          = "pool.ntp.org";     // NTP сервер по умолчанию // Параметр обновляется с web интерфейса
+uint8_t timezone        = 3;                  // часовой пояс GTM // Параметр обновляется с web интерфейса
+bool useNTP             = true;                  // Разрешаем обновление времени с NTP сервера
 const char* day_ru[] PROGMEM = {"Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"};
 const char* day_bg[] PROGMEM = {"Неделя", "Понеделник", "Вторник", "Сряда", "Четвертък", "Петък", "Събота"};
 const char* day_en[] PROGMEM = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
