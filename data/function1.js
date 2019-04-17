@@ -67,6 +67,7 @@ function restart(submit,texts) {
     }
 }
 
+// Необходима правка метода
 function set_new_time(submit, texts) {
     if (confirm(texts)) {
         server = "/TimeNew?time_h="+val('time_h')+"&time_m="+val('time_m')+"&time_s="+val('time_s');
@@ -80,6 +81,7 @@ function set_new_time(submit, texts) {
     }
 }
 
+// Необходима правка метода
 function set_ntp(submit){
     var usertc = 1;
     var checkbox = document.getElementById('use_sync');
@@ -130,44 +132,45 @@ alert("Ok");
 }
 
 function set_alarm1(submit){
-server = "/setalarm1?alarm1_h="+val('alarm1_h')+"&alarm1_m="+val('alarm1_m');
-send_request(submit,server);
-load_time(submit);
-alert("Ok");
-window.location.reload();
-}  
+    server = "/setalarm1?alarm1_h="+val('alarm1_h')+"&alarm1_m="+val('alarm1_m');
+    send_request(submit,server);
+    load_time(submit);
+    alert("Ok");
+    window.location.reload();
+}
+
 function on_alarm1(submit){
-var usealarm1 = 1;
-var checkbox = document.getElementById('use_alarm1');
-if (checkbox.checked == true){
-     usealarm1 = 1;
+    var usealarm1 = 1;
+    var checkbox = document.getElementById('use_alarm1');
+    if (checkbox.checked == true){
+        usealarm1 = 1;
+    } else {
+        usealarm1 = 0;
+    }
+    server = "/usealarm1?use_alarm1="+usealarm1;
+    send_request(submit,server);
+    alert("Ok");
+    window.location.reload();
 }
-else {
-     usealarm1 = 0;
-}
-server = "/usealarm1?use_alarm1="+usealarm1;
-send_request(submit,server);
-alert("Ok");
-window.location.reload();
-}  
+
 function set_alarm2(submit){
-server = "/setalarm2?alarm2_h="+val('alarm2_h')+"&alarm2_m="+val('alarm2_m');
-send_request(submit,server);
-load_time(submit);
-alert("Ok");
-window.location.reload();
-}  
+    server = "/setalarm2?alarm2_h="+val('alarm2_h')+"&alarm2_m="+val('alarm2_m');
+    send_request(submit,server);
+    load_time(submit);
+    alert("Ok");
+    window.location.reload();
+}
+
 function on_alarm2(submit){
-var usealarm2 = 1;
-var checkbox = document.getElementById('use_alarm2');
-if (checkbox.checked == true){
-     usealarm2 = 1;
-}
-else {
-     usealarm2 = 0;
-}
-server = "/usealarm2?use_alarm2="+usealarm2;
-send_request(submit,server);
-alert("Ok");
-window.location.reload();
+    var usealarm2 = 1;
+    var checkbox = document.getElementById('use_alarm2');
+    if (checkbox.checked == true){
+        usealarm2 = 1;
+    } else {
+        usealarm2 = 0;
+    }
+    server = "/usealarm2?use_alarm2="+usealarm2;
+    send_request(submit,server);
+    alert("Ok");
+    window.location.reload();
 }            
