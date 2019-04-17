@@ -36,6 +36,7 @@ bool SaveConFig() {
     json["tz"]      = timezone;
     json["ntp"]     = NtpName;
     json["lang"]    = lang;
+    json["usentp"]  = useNTP;
     // Открываем файл для записи
     File configFile = SPIFFS.open("/config.json", "w");
     if (!configFile) {
@@ -78,10 +79,11 @@ bool LoadConFig() { // Открываем файл для чтения
     passwdAP    = doc["pwdAP"].as<String>();
     timezone    = doc["tz"];
     lang        = doc["lang"];
-    NtpName = doc["ntp"].as<String>();
+    NtpName     = doc["ntp"].as<String>();
     ssid        = doc["ST"].as<String>();
     passwd      = doc["pwd"].as<String>();
     SSDP_Name   = doc["SSDP"].as<String>();
+    useNTP      = doc["usentp"];
     configFile.close();                         // Закрываем файл
     return true;
 }
