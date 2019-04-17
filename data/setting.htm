@@ -22,20 +22,30 @@
                <input class="btn btn-block btn-primary" value="Авто определение и сохранение зоны" onclick="set_time_zone(this);" type="submit">
                <h4 style="margin-top:25px;">Cервер времени</h4>
                <input id="ntpserver" value="{{ntpserver}}" pattern="[0-9a-zA-Z.-]{1,500}" class="form-control" placeholder="us.pool.ntp.org">
-               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ntp_server(this);" type="submit">
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ntp_server(this, 'Будет включена синхронизация с NTP');" type="submit">
                <h4 style="margin-top:25px;">Настройка времени</h4>
                <div class="row">
-                  <div class="col-sm-6">
-                     <input id="time_h" value="{{time_h}}" pattern="[0-9]{1,3}" class="form-control">
-                     <input id="time_m" value="{{time_m}}" pattern="[0-9]{1,3}" class="form-control">
-                     <input id="time_s" value="{{time_s}}" pattern="[0-9]{1,3}" class="form-control">
+                     <div class="col-sm-6">
+                        <span class="btn btn-block btn-success">Год</span>
+                        <input id="date_y" value="{{date_y}}" pattern="[0-9]{1,4}" class="form-control">
+                        <span class="btn btn-block btn-success">Месяц</span>
+                        <input id="date_m" value="{{date_m}}" pattern="[0-9]{1,3}" class="form-control">
+                        <span class="btn btn-block btn-success">День</span>
+                        <input id="date_d" value="{{date_d}}" pattern="[0-9]{1,3}" class="form-control">
+                     </div>
+                     <div class="col-sm-6">
+                        <span class="btn btn-block btn-success">Час</span>
+                        <input id="time_h" value="{{time_h}}" pattern="[0-9]{1,3}" class="form-control">
+                        <span class="btn btn-block btn-success">Минуты</span>
+                        <input id="time_m" value="{{time_m}}" pattern="[0-9]{1,3}" class="form-control">
+                        <span class="btn btn-block btn-success">Секунды</span>
+                        <input id="time_s" value="{{time_s}}" pattern="[0-9]{1,3}" class="form-control">
+                     </div>
+                  </div>
+                     <input type="checkbox" id="use_sync" value="{{use_sync}}" class="form-control" onchange="set_ntp(this);" {{use_sync}}>Синхронизация с<br>сервером времени<br>
                      <input class="btn btn-block btn-success" value="Установить" onclick="set_new_time(this,'Если включена синхонизация с NTP, она будет отключена. Установить время?');" type="submit">
-                  </div>
-                  <div class="col-sm-6">
                      <div class="alert alert-dismissible alert-warning">Ручная установка времени </div>
-                     <input type="checkbox" id="use_sync" value="{{use_sync}}" class="form-control" onchange="set_ntp(this);" {{use_sync}}>Синхронизация с NTP
-                  </div>
-               </div>
+               
                <h4 style="margin-top:25px;">Установки погодного сервера</h4>
                <div class="row">
                   <div class="col-sm-6">
