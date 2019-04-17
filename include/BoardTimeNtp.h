@@ -73,11 +73,20 @@ String GetDate() {
 }
 
 void timeSynch() {
-    setSyncInterval(300);
-    // Синхронизируем время, только если есть подключение к WiFi
-    if (WiFi.status() == WL_CONNECTED) {
-        setSyncProvider(getNtpTime); }
-    Serial.println("I Time Ready!");
+    if (useNTP) {
+        setSyncInterval(300);
+        // Синхронизируем время, только если есть подключение к WiFi
+        if (WiFi.status() == WL_CONNECTED) {
+            setSyncProvider(getNtpTime); 
+            Serial.println("I Time Ready!");
+        } else {
+            Serial.println("No connection to WiFi, use the local time of the microcontroller!");
+        }
+    } else {
+        // Используем локальное время микроконтроллера
+        Serial.println("Synchronization with NTP server is disabled!");
+        Serial.println("Use the local time of the microcontroller!");
+    }
     Serial.println(GetTime());
     Serial.println(GetDate());
 }
