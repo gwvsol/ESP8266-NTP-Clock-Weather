@@ -37,6 +37,12 @@ bool SaveConFig() {
     json["ntp"]     = NtpName;
     json["lang"]    = lang;
     json["usentp"]  = useNTP;
+    json["useAlarm1"]  = useAlarm1;
+    json["alarm1_h"]   = alarm1_hour;
+    json["alarm1_m"]   = alarm1_minute;
+    json["useAlarm2"]  = useAlarm2;
+    json["alarm2_h"]   = alarm2_hour;
+    json["alarm2_m"]   = alarm2_minute;
     // Открываем файл для записи
     File configFile = SPIFFS.open("/config.json", "w");
     if (!configFile) {
@@ -84,6 +90,12 @@ bool LoadConFig() { // Открываем файл для чтения
     passwd      = doc["pwd"].as<String>();
     SSDP_Name   = doc["SSDP"].as<String>();
     useNTP      = doc["usentp"];
+    useAlarm1   = doc["useAlarm1"];
+    alarm1_hour = doc["alarm1_h"];
+    alarm1_minute = doc["alarm1_m"];
+    useAlarm2   = doc["useAlarm2"];
+    alarm2_hour = doc["alarm2_h"];
+    alarm2_minute = doc["alarm2_m"];
     configFile.close();                         // Закрываем файл
     return true;
 }

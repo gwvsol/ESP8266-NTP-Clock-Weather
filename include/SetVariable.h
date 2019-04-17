@@ -67,3 +67,11 @@ const char** month_table[] PROGMEM = {month_ru, month_bg, month_en};
 
 // Настройка WiFi UDP для работы с NTP серверами для обновления времени
 unsigned int localPort = WEBUDP;  // Локальный порт для прослушивания UDP-пакетов
+
+// Настройка работы 2 будильников
+bool useAlarm1           = false;
+uint8_t alarm1_hour      = 0; 
+uint8_t alarm1_minute    = 0;
+bool useAlarm2           = false;
+uint8_t alarm2_hour      = 0;
+uint8_t alarm2_minute    = 0; 
