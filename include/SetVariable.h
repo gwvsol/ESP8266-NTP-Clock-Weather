@@ -55,7 +55,7 @@ IPAddress apNetMask(255, 255, 255, 0);        // Маска сети
 // Настройка обноления времени с NTP сервера
 String NtpName          = "pool.ntp.org";     // NTP сервер по умолчанию // Параметр обновляется с web интерфейса
 uint8_t timezone        = 3;                  // часовой пояс GTM // Параметр обновляется с web интерфейса
-bool useNTP             = true;                  // Разрешаем обновление времени с NTP сервера
+bool useNTP             = true;               // Разрешаем обновление времени с NTP сервера
 const char* day_ru[] PROGMEM = {"Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"};
 const char* day_bg[] PROGMEM = {"Неделя", "Понеделник", "Вторник", "Сряда", "Четвертък", "Петък", "Събота"};
 const char* day_en[] PROGMEM = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -66,25 +66,25 @@ const char* month_en[] PROGMEM = {"January", "February", "March", "April", "May"
 const char** month_table[] PROGMEM = {month_ru, month_bg, month_en};
 
 // Настройка WiFi UDP для работы с NTP серверами для обновления времени
-unsigned int localPort = WEBUDP;  // Локальный порт для прослушивания UDP-пакетов
+unsigned int localPort = WEBUDP;              // Локальный порт для прослушивания UDP-пакетов
 
 // Настройка работы 2 будильников
-bool useAlarm1           = false;
-uint8_t alarm1_hour      = 0; 
-uint8_t alarm1_minute    = 0;
-bool useAlarm2           = false;
-uint8_t alarm2_hour      = 0;
-uint8_t alarm2_minute    = 0;
+bool useAlarm1           = false;             // Параметр обновляется с web интерфейса
+uint8_t alarm1_hour      = 0;                 // Параметр обновляется с web интерфейса
+uint8_t alarm1_minute    = 0;                 // Параметр обновляется с web интерфейса
+bool useAlarm2           = false;             // Параметр обновляется с web интерфейса
+uint8_t alarm2_hour      = 0;                 // Параметр обновляется с web интерфейса
+uint8_t alarm2_minute    = 0;                 // Параметр обновляется с web интерфейса
 
 // Настройки работы индикатора часов
-uint8_t brightness       = 3;           // Яркость свечения экрана
-uint16_t delaySym        = 30;          // Скорость бегущей строки, задержка сдвига одного символа
+uint8_t brightness       = 3;                // Яркость свечения экрана // Параметр обновляется с web интерфейса
+uint16_t delaySym        = 30;               // Скорость бегущей строки, задержка сдвига одного символа
 
 
 // Произвольный текст на экране индикатора
-String strText[2];
+String strText           = "Online watch Lightwell";  // Переменная для хранения произвольного текста для вывода на экран
 
 // Настройки для работы с сервисом погоды
-String strWeather;
-String w_api            = "3527b31fcfc28604386f2f2079e67ac5"; // API для получения погоды
-String city_id           = "732771"; // Коды городоы можно http://bulk.openweathermap.org/sample/city.list.json.gz
+String strWeather        = "Expect weather data updates"; //
+String w_api             = "3527b31fcfc28604386f2f2079e67ac5";  // API для получения погоды
+String city_id           = "732771";         // Коды городоы можно http://bulk.openweathermap.org/sample/city.list.json.gz
