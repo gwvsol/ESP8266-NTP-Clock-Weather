@@ -201,4 +201,5 @@ function set_weather(submit){
     server = "/weather?city_id="+val('city_id')+"&w_api="+val('w_api');
     send_request(submit,server);
     alert("Ok");
+    window.location.reload();
 }
