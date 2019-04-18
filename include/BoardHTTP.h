@@ -1,4 +1,5 @@
 #include <ESP8266WebServer.h>
+#include <ESP8266HTTPUpdateServer.h>
 #ifndef ESP8266WiFi_h
 #define ESP8266WiFi_h
 #endif
@@ -9,8 +10,9 @@
 #define FS_h
 #endif
 
-ESP8266WebServer HTTP(WEBPORT);      // Web интерфейс для устройства
-File fsUploadFile;                   // Для работы с файловой системой
+ESP8266WebServer HTTP(WEBPORT);         // Web интерфейс для устройства
+ESP8266HTTPUpdateServer httpUpdater;    // Для обнавления прошивки с web страницы 
+File fsUploadFile;                      // Для работы с файловой системой
 
 // Перезагрузка модуля по запросу вида http://IP/rst?rst=ok
 void handle_Restart() {
@@ -411,9 +413,10 @@ void HTTP_init(void) {
     //}, handleFileUpload);
     // called when the url is not defined here
     // use it to load content from SPIFFS
+    //==============================================================================
     HTTP.onNotFound([]() {
         if (!handleFileRead(HTTP.uri()))
-        HTTP.send(404, "text/plain", "FileNotFound"); });         // Файл не найден
-    //==============================================================================
+        HTTP.send(404, "text/plain", "FileNotFound"); });   // Файл не найден
+    httpUpdater.setup(&HTTP);                         // Для обнавления прошивки с web страницы 
     HTTP.begin();
 }
