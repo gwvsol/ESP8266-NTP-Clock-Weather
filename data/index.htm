@@ -17,37 +17,64 @@
                <h5 class="alert-info" id="ssdp_t">{{SSDP}}</h5><br><h5 class="alert-info" id="ip_t">{{ip}}</h5>
                <a class="btn btn-block btn-default" href="/setting.htm" target="_blank">Настройка</a>
                <h4 style="margin-top:25px;">Текущее время</h4>
-               <h4 class="btn btn-block btn-primary" id="time"> {{time}}</h4>
-               <span class="btn btn-block btn-primary" id="date"> {{date}}</span>
+               <div class="row" style="margin-bottom:5px;">
+                  <div class="col-sm-6" style="margin-bottom:5px;">
+                     <span class="btn btn-block btn-primary" id="time"> {{time}}</span>
+                  </div>
+                  <div class="col-sm-6">
+                     <span class="btn btn-block btn-primary" id="date"> {{date}}</span>
+                  </div>
+               </div>
                <input class="btn btn-block btn-primary" value="Синхронизировать время" onclick="load_time(this);" type="submit">
                <h4 style="margin-top:25px;">Будильники</h4>
                <div class="row">
                   <div class="col-sm-6">
+                  <span class="btn btn-block btn-success">Часы</span>
                   <input id="alarm1_h" value="{{alarm1_h}}" pattern="[0-9]{1,3}" class="form-control">
+                  <span class="btn btn-block btn-success">Минуты</span>
                   <input id="alarm1_m" value="{{alarm1_m}}" pattern="[0-9]{1,3}" class="form-control">
                   <input class="btn btn-block btn-success" value="Установить" onclick="set_alarm1(this);" type="submit">
                   <input type="checkbox" id="use_alarm1" value="{{use_alarm1}}" class="form-control" onchange="on_alarm1(this);" {{use_alarm1}}>Включить
                   </div>
                   <div class="col-sm-6">
+                  <span class="btn btn-block btn-success">Часы</span>
                   <input id="alarm2_h" value="{{alarm2_h}}" pattern="[0-9]{1,3}" class="form-control">
+                  <span class="btn btn-block btn-success">Минуты</span>
                   <input id="alarm2_m" value="{{alarm2_m}}" pattern="[0-9]{1,3}" class="form-control">
                   <input class="btn btn-block btn-success" value="Установить" onclick="set_alarm2(this);" type="submit">
                   <input type="checkbox" id="use_alarm2" value="{{use_alarm2}}" class="form-control" onchange="on_alarm2(this);" {{use_alarm2}}>Включить
                   </div>
                </div>
                <h4 style="margin-top:25px;">Произвольный текст (бегущая строка)</h4>
-               <input id="text1" value="{{text1}}" class="form-control" pattern=".{1,500}" placeholder="Введите текст">
-               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_text1(this);" type="submit">
-               <h4 style="margin-top:25px;">Яркость</h4>
-               <label><input id="bright"  type="range" value="{{bright}}" min="1" max="15" class="form-control"></label>
-               <input class="btn btn-block btn-success" value="Установить" onclick="set_bright(this);" type="submit">
-               <h4 style="margin-top:25px;">Скорость</h4>
-               <label><input id="speed_d"  type="range" value="{{speed_d}}" min="10" max="200" class="form-control"></label>
-               <input class="btn btn-block btn-success" value="Установить" onclick="set_speed(this);" type="submit">	
-               <div style="margin-top:20px;">
-                  <input class="btn btn-block btn-warning" value="Перезагрузка" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
+               <div class="row">
+                  <div class="col-sm-6">
+                     <input id="text" value="{{text}}" class="form-control" pattern=".{1,500}" placeholder="Введите текст">
+                  </div>
+                  <div class="col-sm-6">
+                     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_text1(this);" type="submit">
+                  </div>
                </div>
-            </div>
+               <h4 style="margin-top:25px;">Яркость</h4>
+               <div class="row">
+                  <div class="col-sm-6">
+                     <label><input id="bright"  type="range" value="{{bright}}" min="1" max="15" class="form-control"></label>
+                  </div>
+                  <div class="col-sm-6">
+                     <input class="btn btn-block btn-success" value="Установить" onclick="set_bright(this);" type="submit">
+                  </div>
+               </div>
+               <h4 style="margin-top:25px;">Скорость</h4>
+               <div class="row">
+                  <div class="col-sm-6">
+                     <label><input id="speed_d"  type="range" value="{{speed_d}}" min="10" max="200" class="form-control"></label>
+                  </div>
+                  <div class="col-sm-6">
+                     <input class="btn btn-block btn-success" value="Установить" onclick="set_speed(this);" type="submit">	
+                  </div>
+               </div>
+               <div style="margin-top:20px;">
+                     <input class="btn btn-block btn-warning" value="Перезагрузка" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
+               </div>
             </div>
          </div>
       </div>
