@@ -417,6 +417,8 @@ void HTTP_init(void) {
     HTTP.onNotFound([]() {
         if (!handleFileRead(HTTP.uri()))
         HTTP.send(404, "text/plain", "FileNotFound"); });   // Файл не найден
-    httpUpdater.setup(&HTTP);                         // Для обнавления прошивки с web страницы 
+    // Обновление так же возможно с помощью утилиты curl 
+    // Пример использования curl -F "image=@firmware.bin" IP/update
+    httpUpdater.setup(&HTTP);                               // Для обнавления прошивки с web страницы 
     HTTP.begin();
 }
