@@ -7,6 +7,7 @@
 #include <BoardTimeNtp.h>
 #include <BoardSSDP.h>
 #include <BoardHTTP.h>
+#include <BoardWeather.h>
 
 void setup() {
     Serial.begin(UARTSPEED);              // Настраиваем UART порт для вывода отладочной информации
@@ -28,10 +29,12 @@ void setup() {
     SSDP_init();
     Serial.println("Set and Start Web Service");
     HTTP_init();
+    Weather_init();
 }
 
 void loop() {
     LedWiFi(LED);                      // Индикация прдключения к WiFi
     HTTP.handleClient();
     delay(1);
+    GetWeather();
 }
