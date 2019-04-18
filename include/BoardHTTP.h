@@ -151,14 +151,14 @@ void handle_Set_Ssid() {
 void handle_Set_Lang() {
     lang = HTTP.arg("lang").toInt();
     SaveConFig();
-    //strWeather = GetWeather(); //Поменяли язык, надо запросить данные о погоде на соотв.языке
+    //strWeather = GetWeather();         // После изменения языка, необходимо обновить данные о погоде на соотв.языке
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
 
 // Получаем значение яркости экрана по запросу вида http://IP/setbright?bright=3
 void handle_Brightness() {
     brightness = HTTP.arg("bright").toInt();
-    saveConfig();
+    SaveConFig();
     //matrix.setIntensity(brightness); // Передача настроек на экран
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
@@ -166,25 +166,25 @@ void handle_Brightness() {
 // Получаем значение скорости вывода информации на экран
 // по запросу http://IP/setspeed?speed_d=100
 void handle_Speed() {
-    delaySym = 210 - HTTP.arg("speed_d").toInt();
-    saveConfig();
+    delaySym = HTTP.arg("speed_d").toInt();
+    SaveConFig();
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
 
 // Получаем произвольную строку для вывода на экран
-// по запросу http://IP/setspeed?text1=test-test
+// по запросу http://IP/text?text=test-test
 void handle_Text() {
-    strText[2] = HTTP.arg("text1");
-    saveConfig();
+    strText = HTTP.arg("text");
+    SaveConFig();
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
 
 // Получаем значение настроек о получении погоды с сервера
 // по запросу http://IP/weather?city_code=city_code&w_api=w_api
 void handle_Weather() {
-    city_id = HTTP.arg("city_code");
+    city_id = HTTP.arg("city_id");
     w_api = HTTP.arg("w_api");
-    saveConfig();
+    SaveConFig();
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
 
@@ -339,6 +339,11 @@ void handle_ConfigJSON() {
     }
     jsonDoc["alarm2_h"]     = alarm2_hour;
     jsonDoc["alarm2_m"]     = alarm2_minute;
+    jsonDoc["bright"]       = brightness;
+    jsonDoc["speed_d"]      = delaySym;
+    jsonDoc["text"]         = strText;
+    jsonDoc["w_api"]        = w_api;
+    jsonDoc["city_id"]      = city_id;
     // Помещаем созданный json в переменную root
     String htmlOut;
     serializeJson(jsonDoc, htmlOut);
