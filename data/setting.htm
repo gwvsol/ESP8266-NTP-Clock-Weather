@@ -53,7 +53,7 @@
                   </div>
                   <div class="col-sm-6">
                      <span class="btn btn-block btn-success">API погоды</span>
-                     <input id="w_api" value="{{w_api}}" pattern=".{1,100}" class="form-control" placeholder="API">
+                     <input id="w_api" value="{{w_api}}" pattern=".{1,100}" class="form-control" onfocus="this.type='text'" type="password" placeholder="API">
                   </div>
                </div>
                <input class="btn btn-block btn-success" value="Установить" onclick="set_weather(this);" type="submit">
