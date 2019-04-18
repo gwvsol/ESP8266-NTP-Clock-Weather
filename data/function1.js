@@ -92,7 +92,7 @@ function set_new_time(submit, texts) {
 
 // Включение синхронизации времени устройства по NTP серверу по запросу вида 
 // http://IP/usentp?use_sync=1 (выключение use_sync=0)
-function set_ntp(submit){
+function set_ntp(submit) {
     var usentp = 1;
     var checkbox = document.getElementById('use_sync');
     if (checkbox.checked != true){
@@ -126,7 +126,7 @@ function set_lang(submit){
 }
 
 // Установка настроек будильника 1 по запросу вида http://IP/setalarm1?alarm1_h=12&alarm1_m=45
-function set_alarm1(submit){
+function set_alarm1(submit) {
     server = "/setalarm1?alarm1_h="+val('alarm1_h')+"&alarm1_m="+val('alarm1_m');
     send_request(submit,server);
     load_time(submit);
@@ -138,7 +138,7 @@ function set_alarm1(submit){
 function on_alarm1(submit){
     var usealarm1 = 1;
     var checkbox = document.getElementById('use_alarm1');
-    if (checkbox.checked == true){
+    if (checkbox.checked == true) {
         usealarm1 = 1;
     } else {
         usealarm1 = 0;
@@ -150,7 +150,7 @@ function on_alarm1(submit){
 }
 
 // Установка настроек будильника 2 по запросу вида http://IP/setalarm2?alarm2_h=12&alarm2_m=45
-function set_alarm2(submit){
+function set_alarm2(submit) {
     server = "/setalarm2?alarm2_h="+val('alarm2_h')+"&alarm2_m="+val('alarm2_m');
     send_request(submit,server);
     load_time(submit);
@@ -159,10 +159,10 @@ function set_alarm2(submit){
 }
 
 // Включение/выключение будильника 2 по запросу вида http://IP/usealarm2?use_alarm2=1 (выключение use_alarm2=0)
-function on_alarm2(submit){
+function on_alarm2(submit) {
     var usealarm2 = 1;
     var checkbox = document.getElementById('use_alarm2');
-    if (checkbox.checked == true){
+    if (checkbox.checked == true) {
         usealarm2 = 1;
     } else {
         usealarm2 = 0;
@@ -174,8 +174,8 @@ function on_alarm2(submit){
 }
 
 // Получаем произвольную строку для вывода на экран по запросу http://IP/setspeed?text1=test-test
-function set_text1(submit){
-    server = "/text?text1="+val('text1');
+function set_text1(submit) {
+    server = "/text?text="+val('text');
     send_request(submit,server);
     alert("Ok");
     window.location.reload();
@@ -190,7 +190,7 @@ function set_bright(submit){
 }
 
 // Отправляем значение скорости вывода информации на экран по запросу http://IP/setspeed?speed_d=100
-function set_speed(submit){
+function set_speed(submit) {
     server = "/setspeed?speed_d="+val('speed_d');
     send_request(submit,server);
     alert("Ok");
@@ -198,7 +198,7 @@ function set_speed(submit){
 }
 
 function set_weather(submit){
-    server = "/weather?city_code="+val('city_code')+"&w_api="+val('w_api');
+    server = "/weather?city_id="+val('city_id')+"&w_api="+val('w_api');
     send_request(submit,server);
     alert("Ok");
 }
