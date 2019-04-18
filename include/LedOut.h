@@ -8,14 +8,13 @@ void ledToggle(int led) {
 
 void ledWifi(int led, unsigned long on, unsigned long off){
     unsigned long dtime = 0;
-    unsigned long currentTime = millis();
     if (digitalRead(led) == HIGH) {
         dtime = off;
     } else {
         dtime = on;
     }
-    if (currentTime - lastTime >= dtime) {
-        lastTime = currentTime;
+    if (millis() - LedTime >= dtime) {
+        LedTime = millis();
         ledToggle(led);
     }
 }
