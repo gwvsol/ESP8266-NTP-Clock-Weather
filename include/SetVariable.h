@@ -20,11 +20,13 @@
 // Установка языка индикации
 uint8_t lang = 0; //0-RU, 1-BG, 2 -EN // Параметр обновляется с web интерфейса
 
-// Настройка работы светодиодов
-unsigned long lastTime      = 0;
-unsigned long currentTime   = 0;
+// Настройка переменной со значением времени
+//unsigned long currentTime      = millis();
+unsigned long HTTPTime         = 0;
+const unsigned long httpUpdate = 1000;   // Интервал обновления web сервиса
 
 // Определяем константы для индикации режимов работы WiFi: ST или AP
+unsigned long LedTime     = 0;
 const unsigned long WifiOn  = 100;       // Время включения светодиода wifi
 const unsigned long WifiOff = 5000;      // Время выключения светодиода wifi
 const unsigned long ApOn    = 1000;      // Время включения светодиода в режиме AP
@@ -85,6 +87,28 @@ uint16_t delaySym        = 150;               // Скорость бегущей
 String strText           = "Online watch Lightwell";  // Переменная для хранения произвольного текста для вывода на экран
 
 // Настройки для работы с сервисом погоды
+const char* overboard[] PROGMEM = {"Погода на улице: ", "Времето навън: ", "The weather outside: "};
+const char* temper[] PROGMEM = {". Темп:", ". Темп:", ". Temperature:"};
+const char* hum[] PROGMEM = {"`С. Влажн: ", "`С. Влажн: ", "`С. Humidity: "};
+const char* pres[] PROGMEM = {"%. Давл: ", "%. Налягане: ", "%. Pressure: "};
+const char* wind[] PROGMEM = {" мм. Ветер ", " мм. Вятър ", " mm. Wind "};
+const char* windsp[] PROGMEM = {" м/с.", " м/с.", " m/s"};
+const char* windir_ru[] PROGMEM = {"север-вост ", "вост ", "юго-вост ", "южный ", "юго-запад ", "запад ", "север.-запад ", "север "};
+const char* windir_bg[] PROGMEM = {"север-изт ", "източ ", "юго-източ ", "южен ", "южен-запад ", "запад ", "север.-запад ", "север "};
+const char* windir_en[] PROGMEM = {"North-East ", "East ", "South-East ", "South ", "South-West ", "West ", "North-West ", "North "};
+const char** windir_table[] PROGMEM = {windir_ru, windir_bg, windir_en};
+
+unsigned long WeatherTime           = 0;
+const unsigned long WeatherUpdate   = 90000;                        // Интервал обновления погоды
 String strWeather        = "Expect weather data updates"; //
-String w_api             = "3527b31fcfc28604386f2f2079e67ac5";  // API для получения погоды
-String city_id           = "732771";         // Коды городоы можно http://bulk.openweathermap.org/sample/city.list.json.gz
+String w_api             = "f266126b1c5gfdgdcf63858b5f713a25908da";  // API OpenWeatherMap
+// Коды городов http://bulk.openweathermap.org/sample/city.list.json.gz
+String city_id           = "732770";
+String w_url             = "http://api.openweathermap.org/data/2.5/weather";
+String w_out             = "";
+String w_descript        = "";
+String w_temp            = "";
+String w_hum             = "";
+String w_pres            = "";
+String w_wind            = "";
+String w_speed           = "";
