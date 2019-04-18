@@ -43,6 +43,11 @@ bool SaveConFig() {
     json["useAlarm2"]  = useAlarm2;
     json["alarm2_h"]   = alarm2_hour;
     json["alarm2_m"]   = alarm2_minute;
+    json["brightness"] = brightness;
+    json["delaySym"]   = delaySym;
+    json["strText"]    = strText;
+    json["w_api"]      = w_api;
+    json["city_id"]    = city_id;
     // Открываем файл для записи
     File configFile = SPIFFS.open("/config.json", "w");
     if (!configFile) {
@@ -77,25 +82,28 @@ bool LoadConFig() { // Открываем файл для чтения
     Serial.println(jsonConfig);  // Для отладки, можно увидесть что записано в файле конфигурации
     // Резервируем память для json обекта буфер может рости по мере необходимти ESP8266
     DynamicJsonDocument doc(1024);
-    // Парсер JSON через jsonBuffer
     deserializeJson(doc, jsonConfig);
-    // JsonObject root = jsonBuffer.parseObject(jsonConfig);
-    // Получаем значения из переменной root  
-    ssidAP      = doc["AP"].as<String>();
-    passwdAP    = doc["pwdAP"].as<String>();
-    timezone    = doc["tz"];
-    lang        = doc["lang"];
-    NtpName     = doc["ntp"].as<String>();
-    ssid        = doc["ST"].as<String>();
-    passwd      = doc["pwd"].as<String>();
-    SSDP_Name   = doc["SSDP"].as<String>();
-    useNTP      = doc["usentp"];
-    useAlarm1   = doc["useAlarm1"];
-    alarm1_hour = doc["alarm1_h"];
+    // Получаем значения из переменной doc
+    ssidAP        = doc["AP"].as<String>();
+    passwdAP      = doc["pwdAP"].as<String>();
+    timezone      = doc["tz"];
+    lang          = doc["lang"];
+    NtpName       = doc["ntp"].as<String>();
+    ssid          = doc["ST"].as<String>();
+    passwd        = doc["pwd"].as<String>();
+    SSDP_Name     = doc["SSDP"].as<String>();
+    useNTP        = doc["usentp"];
+    useAlarm1     = doc["useAlarm1"];
+    alarm1_hour   = doc["alarm1_h"];
     alarm1_minute = doc["alarm1_m"];
-    useAlarm2   = doc["useAlarm2"];
-    alarm2_hour = doc["alarm2_h"];
+    useAlarm2     = doc["useAlarm2"];
+    alarm2_hour   = doc["alarm2_h"];
     alarm2_minute = doc["alarm2_m"];
+    brightness    = doc["brightness"];
+    delaySym      = doc["delaySym"];
+    strText       = doc["strText"].as<String>();
+    w_api         = doc["w_api"].as<String>();
+    city_id       = doc["city_id"].as<String>();
     configFile.close();                         // Закрываем файл
     return true;
 }
