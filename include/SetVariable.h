@@ -99,7 +99,7 @@ const char* windir_en[] PROGMEM = {"North-East ", "East ", "South-East ", "South
 const char** windir_table[] PROGMEM = {windir_ru, windir_bg, windir_en};
 
 unsigned long WeatherTime           = 0;
-bool useWeather                     = false;              // Параметр обновляется с web интерфейса
+bool useWeather                     = true;              // Параметр обновляется с web интерфейса
 const unsigned long WeatherUpdate   = 90000;              // Интервал обновления погоды
 String strWeather        = "Expect weather data updates"; //
 String w_api             = "f266126b1c5cf63858b5f713a25908da";  // API OpenWeatherMap

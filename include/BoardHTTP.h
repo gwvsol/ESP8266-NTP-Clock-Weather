@@ -228,12 +228,6 @@ bool handleFileRead(String path) {
         else if (lang == 2) path += "index-en.htm";
         else path += "index-en.htm";
     }
-    if (path.endsWith("/setting")) {
-        if (lang == 0) path += "setting-ru.htm";
-        else if (lang == 1) path += "setting-bg.htm";
-        else if (lang == 2) path += "setting-en.htm";
-        else path += "setting-en.htm";
-    }
     String contentType = getContentType(path);
     String pathWithGz = path + ".gz";
     if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) {
