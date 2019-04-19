@@ -6,8 +6,8 @@
 #include <BoardWifi.h>
 #include <BoardTimeNtp.h>
 #include <BoardSSDP.h>
-#include <BoardHTTP.h>
 #include <BoardWeather.h>
+#include <BoardHTTP.h>
 
 void setup() {
     Serial.begin(UARTSPEED);              // Настраиваем UART порт для вывода отладочной информации
