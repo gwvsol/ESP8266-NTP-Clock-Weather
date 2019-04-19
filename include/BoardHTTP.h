@@ -11,7 +11,7 @@
 #endif
 
 ESP8266WebServer HTTP(WEBPORT);         // Web интерфейс для устройства
-ESP8266HTTPUpdateServer httpUpdater;    // Для обнавления прошивки с web страницы 
+ESP8266HTTPUpdateServer httpUpdater;    // Для обновления прошивки с web страницы 
 File fsUploadFile;                      // Для работы с файловой системой
 
 // Перезагрузка модуля по запросу вида http://IP/rst?rst=ok
@@ -69,11 +69,8 @@ void handle_TimeSet() {
 // (выключение use_sync=0)
 void handle_UseNTP() {
     int ntp = HTTP.arg("use_sync").toInt();
-    if (ntp) {
-        useNTP = true;
-    } else {
-        useNTP = false;
-    };
+    if (ntp) useNTP = true;
+    else useNTP = false;
     SaveConFig();
     timeSynch();
     HTTP.send(200, "text/plain", "OK");                 // отправляем ответ о выполнении
@@ -188,6 +185,20 @@ void handle_Weather() {
     w_api = HTTP.arg("w_api");
     SaveConFig();
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Включение обновления погоды по запросу вида
+// http://IP/useweath?use_weath=1 (выключение use_weath=0)
+void use_Weather() {
+    useWeather = HTTP.arg("use_weath").toInt();
+    SaveConFig();
+    HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
+}
+
+// Синхронизация погоды по запросу http://IP/updateweath
+void update_Weather() {
+    Weather_init();
+    HTTP.send(200, "text/plain", "OK"); // Отправляем ответ о выполнении
 }
 
 // Методы для работы с SPIFFS
@@ -312,11 +323,8 @@ void handle_ConfigJSON() {
     } else {
         jsonDoc["ip"]       = WiFi.localIP().toString();
     }
-    if (useNTP) {
-        jsonDoc["use_sync"]     = "checked";
-    } else {
-        jsonDoc["use_sync"]     = "";
-    }
+    if (useNTP) jsonDoc["use_sync"] = "checked";
+    else        jsonDoc["use_sync"] = "";
     jsonDoc["date_y"]       = String(year(tn));
     jsonDoc["date_m"]       = String(month(tn));
     jsonDoc["date_d"]       = String(day(tn));
@@ -327,18 +335,12 @@ void handle_ConfigJSON() {
     jsonDoc["date"]         = GetDate();
     jsonDoc["ntpserver"]    = NtpName; 
     jsonDoc["lang"]         = lang;
-    if (useAlarm1) {
-        jsonDoc["use_alarm1"] = "checked";
-    } else {
-        jsonDoc["use_alarm1"] = "";
-    }
+    if (useAlarm1) jsonDoc["use_alarm1"] = "checked";
+    else           jsonDoc["use_alarm1"] = "";
     jsonDoc["alarm1_h"]     = alarm1_hour;
     jsonDoc["alarm1_m"]     = alarm1_minute;
-    if (useAlarm2) {
-        jsonDoc["use_alarm2"] = "checked";
-    } else {
-        jsonDoc["use_alarm2"] = "";
-    }
+    if (useAlarm2) jsonDoc["use_alarm2"] = "checked";
+    else           jsonDoc["use_alarm2"] = "";
     jsonDoc["alarm2_h"]     = alarm2_hour;
     jsonDoc["alarm2_m"]     = alarm2_minute;
     jsonDoc["bright"]       = brightness;
@@ -352,6 +354,9 @@ void handle_ConfigJSON() {
     jsonDoc["w_pres"]       = w_pres;
     jsonDoc["w_wind"]       = w_wind;
     jsonDoc["w_speed"]      = w_speed;
+    jsonDoc["city_name"]    = city_name;
+    if (useWeather) jsonDoc["use_weather"] = "checked";
+    else            jsonDoc["use_weather"] = "";
     // Помещаем созданный json в переменную root
     String htmlOut;
     serializeJson(jsonDoc, htmlOut);
@@ -400,9 +405,15 @@ void HTTP_init(void) {
     HTTP.on("/setspeed", handle_Speed);
     // Установка произвольного текста на экране 
     HTTP.on("/text", handle_Text);
-    // Установка настроек погоды
+    // Установка настроек погоды по запросу вида
+    // http://IP/weather?city_id=732770&w_api=f266126b1c5cf63858b5f713a25908da
     HTTP.on("/weather", handle_Weather);
-    // SSDP дескриптор
+    // Включение обновления погоды по запросу вида
+    // http://IP/useweath?use_weath=1 (выключение use_weath=0)
+    HTTP.on("/useweath", use_Weather);
+    // Синхронизация погоды по запросу http://IP/updateweath
+    HTTP.on("/updateweath", update_Weather);
+    // SSDP дескриптор по запросу http://IP/description.xml
     HTTP.on("/description.xml", HTTP_GET, []() {SSDP.schema(HTTP.client()); });
     //==============================================================================
     // HTTP страницы для работы с SPIFFS
