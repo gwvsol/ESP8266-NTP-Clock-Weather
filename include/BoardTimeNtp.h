@@ -101,3 +101,11 @@ void Time_init() {
     Serial.println("Waiting for sync Time...");       // "Ожидаем синхронизации времени"
     timeSynch();
 }
+
+// Обновляем время с NTP сервера
+void GetNTP() {
+    if (millis() - NtpTime >= NtpUpdate) {
+        NtpTime = millis();
+        timeSynch();
+    }
+}
