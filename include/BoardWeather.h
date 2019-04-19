@@ -63,9 +63,7 @@ String Weather_init() {
 // Получаем данные о погоде
 void GetWeather() {
     if (millis() - WeatherTime >= WeatherUpdate) {
-        //Serial.println(WeatherTime);
         WeatherTime = millis();
-        //Serial.println(WeatherTime);
         Weather_init();
     }
 }
