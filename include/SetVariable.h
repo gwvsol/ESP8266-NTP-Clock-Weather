@@ -99,9 +99,10 @@ const char* windir_en[] PROGMEM = {"North-East ", "East ", "South-East ", "South
 const char** windir_table[] PROGMEM = {windir_ru, windir_bg, windir_en};
 
 unsigned long WeatherTime           = 0;
-const unsigned long WeatherUpdate   = 90000;                        // Интервал обновления погоды
+bool useWeather                     = false;              // Параметр обновляется с web интерфейса
+const unsigned long WeatherUpdate   = 90000;              // Интервал обновления погоды
 String strWeather        = "Expect weather data updates"; //
-String w_api             = "f266126b1c5gfdgdcf63858b5f713a25908da";  // API OpenWeatherMap
+String w_api             = "f266126b1c5cf63858b5f713a25908da";  // API OpenWeatherMap
 // Коды городов http://bulk.openweathermap.org/sample/city.list.json.gz
 String city_id           = "732770";
 String w_url             = "http://api.openweathermap.org/data/2.5/weather";
@@ -112,3 +113,4 @@ String w_hum             = "";
 String w_pres            = "";
 String w_wind            = "";
 String w_speed           = "";
+String city_name         = "";
