@@ -15,7 +15,7 @@
             <h2 style="margin:50px;">Онлайн часовници</h2>
             <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
                <h5 class="alert-info" id="ssdp_t">{{SSDP}}</h5><br><h5 class="alert-info" id="ip_t">{{ip}}</h5>
-               <a class="btn btn-block btn-default" href="/setting-bg.htm" target="_blank">Настройка</a>
+               <a class="btn btn-block btn-default" href="/setting">Настройка</a>
                <h4 style="margin-top:25px;">Текущото време</h4>
                <div class="row" style="margin-bottom:5px;">
                   <div class="col-sm-6" style="margin-bottom:5px;">
@@ -48,7 +48,7 @@
                   <input id="alarm1_h" value="{{alarm1_h}}" pattern="[0-9]{1,3}" class="form-control">
                   <span class="btn btn-block btn-primary">Минути</span>
                   <input id="alarm1_m" value="{{alarm1_m}}" pattern="[0-9]{1,3}" class="form-control">
-                  <input class="btn btn-block btn-success" value="Инсталирате" onclick="set_alarm1(this);" type="submit">
+                  <input class="btn btn-block btn-success" value="Запази" onclick="set_alarm1(this);" type="submit">
                   <input type="checkbox" id="use_alarm1" value="{{use_alarm1}}" class="form-control" onchange="on_alarm1(this);" {{use_alarm1}}>Включи
                   </div>
                   <div class="col-sm-6">
@@ -56,11 +56,11 @@
                   <input id="alarm2_h" value="{{alarm2_h}}" pattern="[0-9]{1,3}" class="form-control">
                   <span class="btn btn-block btn-primary">Минути</span>
                   <input id="alarm2_m" value="{{alarm2_m}}" pattern="[0-9]{1,3}" class="form-control">
-                  <input class="btn btn-block btn-success" value="Инсталирате" onclick="set_alarm2(this);" type="submit">
+                  <input class="btn btn-block btn-success" value="Запази" onclick="set_alarm2(this);" type="submit">
                   <input type="checkbox" id="use_alarm2" value="{{use_alarm2}}" class="form-control" onchange="on_alarm2(this);" {{use_alarm2}}>Включи
                   </div>
                </div>
-               <h4 style="margin-top:25px;">Течащи</h4>
+               <h4 style="margin-top:25px;">Бягаща лента</h4>
                <div class="row">
                   <div class="col-sm-6">
                      <input id="text" value="{{text}}" class="form-control" pattern=".{1,500}" placeholder="Въведете текста">
@@ -75,7 +75,7 @@
                      <label><input id="bright"  type="range" value="{{bright}}" min="1" max="15" class="form-control"></label>
                   </div>
                   <div class="col-sm-6">
-                     <input class="btn btn-block btn-success" value="Инсталирате" onclick="set_bright(this);" type="submit">
+                     <input class="btn btn-block btn-success" value="Запази" onclick="set_bright(this);" type="submit">
                   </div>
                </div>
                <h4 style="margin-top:25px;">Скорост</h4>
@@ -84,7 +84,7 @@
                      <label><input id="speed_d"  type="range" value="{{speed_d}}" min="10" max="200" class="form-control"></label>
                   </div>
                   <div class="col-sm-6">
-                     <input class="btn btn-block btn-success" value="Инсталирате" onclick="set_speed(this);" type="submit">	
+                     <input class="btn btn-block btn-success" value="Запази" onclick="set_speed(this);" type="submit">	
                   </div>
                </div>
                <div style="margin-top:20px;">

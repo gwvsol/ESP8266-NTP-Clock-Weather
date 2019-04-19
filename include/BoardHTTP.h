@@ -150,7 +150,7 @@ void handle_Set_Ssid() {
 void handle_Set_Lang() {
     lang = HTTP.arg("lang").toInt();
     SaveConFig();
-    //strWeather = GetWeather();         // После изменения языка, необходимо обновить данные о погоде на соотв.языке
+    Weather_init();                      // После изменения языка, необходимо обновить данные о погоде на соотв.языке
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
 
@@ -222,12 +222,20 @@ String getContentType(String filename) {
 }
 
 bool handleFileRead(String path) {
-    if (path.endsWith("/")) {
-        if (lang == 0) path += "index-ru.htm";
-        else if (lang == 1) path += "index-bg.htm";
-        else if (lang == 2) path += "index-en.htm";
-        else path += "index-en.htm";
+    if (path.endsWith("/setting")) {
+        if (lang == 0) path += "-ru.htm";
+        else if (lang == 1) path += "-bg.htm";
+        else if (lang == 2) path += "-en.htm";
+        else path += "-en.htm";
     }
+    if (path.endsWith("/")) {
+        path += "index";
+        if (lang == 0) path += "-ru.htm";
+        else if (lang == 1) path += "-bg.htm";
+        else if (lang == 2) path += "-en.htm";
+        else path += "-en.htm";
+    }
+    //Serial.println("handleFileRead: " + path);
     String contentType = getContentType(path);
     String pathWithGz = path + ".gz";
     if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) {
