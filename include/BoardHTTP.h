@@ -346,6 +346,12 @@ void handle_ConfigJSON() {
     jsonDoc["text"]         = strText;
     jsonDoc["w_api"]        = w_api;
     jsonDoc["city_id"]      = city_id;
+    jsonDoc["w_descript"]   = w_descript;
+    jsonDoc["w_temp"]       = w_temp;
+    jsonDoc["w_hum"]        = w_hum;
+    jsonDoc["w_pres"]       = w_pres;
+    jsonDoc["w_wind"]       = w_wind;
+    jsonDoc["w_speed"]      = w_speed;
     // Помещаем созданный json в переменную root
     String htmlOut;
     serializeJson(jsonDoc, htmlOut);
