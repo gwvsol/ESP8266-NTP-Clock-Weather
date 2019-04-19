@@ -197,8 +197,33 @@ function set_speed(submit) {
     window.location.reload();
 }
 
+// Отправляем данные о городе и api для получения погоды с сервера
+// по запросу http://IP/weather?city_id=732770&w_api=f266126b1c5cf63858b5f713a25908da
 function set_weather(submit){
     server = "/weather?city_id="+val('city_id')+"&w_api="+val('w_api');
+    send_request(submit,server);
+    alert("Ok");
+    window.location.reload();
+}
+
+// Отправляем запрос о включении получения данных о погоде
+function use_weath(submit) {
+    var useWeat = 0;
+    var checkbox = document.getElementById('use_weather');
+    if (checkbox.checked == true) {
+        useWeat = 1;
+    } else {
+        useWeat = 0;
+    }
+    server = "/useweath?use_weath="+useWeat;
+    send_request(submit,server);
+    alert("Ok");
+    window.location.reload();
+}
+
+// Отправляем запрос об обновлении погоды с сервера
+function load_weather(submit){
+    server = "/updateweath";
     send_request(submit,server);
     alert("Ok");
     window.location.reload();
