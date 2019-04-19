@@ -12,121 +12,121 @@
    <body onload="load();">
       <div class="container">
          <div class="row" style="text-align:center;">
-            <h2 style="margin-top:50px;">Интернет-часы</h2>
+            <h2 style="margin-top:50px;">Internet watch</h2>
             <h4>Настройка</h4>
             <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-               <a class="btn btn-block btn-default" href="/" target="_blank">Главная страница</a>
-               <h4 style="margin-top:25px;">Временная зона</h4>
+               <a class="btn btn-block btn-default" href="/" target="_blank">Main page</a>
+               <h4 style="margin-top:25px;">Time zone</h4>
                <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
-               <input class="btn btn-block btn-success" value="Сохранить" onclick="time_zone(this);" type="submit">
-               <input class="btn btn-block btn-primary" value="Авто определение и сохранение зоны" onclick="set_time_zone(this);" type="submit">
-               <h4 style="margin-top:25px;">Cервер времени</h4>
+               <input class="btn btn-block btn-success" value="Save" onclick="time_zone(this);" type="submit">
+               <input class="btn btn-block btn-primary" value="Auto-detect and save the time zone" onclick="set_time_zone(this);" type="submit">
+               <h4 style="margin-top:25px;">Time server</h4>
                <input id="ntpserver" value="{{ntpserver}}" pattern="[0-9a-zA-Z.-]{1,500}" class="form-control" placeholder="us.pool.ntp.org">
-               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ntp_server(this, 'Будет включена синхронизация с NTP');" type="submit">
-               <h4 style="margin-top:25px;">Настройка времени</h4>
+               <input class="btn btn-block btn-success" value="Save" onclick="set_ntp_server(this, 'Synchronization with NTP will be enabled');" type="submit">
+               <h4 style="margin-top:25px;">Time setting</h4>
                <div class="row" style="margin-bottom:5px;">
                      <div class="col-sm-6">
-                        <span class="btn btn-block btn-primary">Год</span>
+                        <span class="btn btn-block btn-primary">Year</span>
                         <input id="date_y" value="{{date_y}}" pattern="[0-9]{1,4}" class="form-control">
-                        <span class="btn btn-block btn-primary">Месяц</span>
+                        <span class="btn btn-block btn-primary">Month</span>
                         <input id="date_m" value="{{date_m}}" pattern="[0-9]{1,3}" class="form-control">
-                        <span class="btn btn-block btn-primary">День</span>
+                        <span class="btn btn-block btn-primary">Day</span>
                         <input id="date_d" value="{{date_d}}" pattern="[0-9]{1,3}" class="form-control">
                      </div>
                      <div class="col-sm-6">
-                        <span class="btn btn-block btn-primary">Часы</span>
+                        <span class="btn btn-block btn-primary">Clock</span>
                         <input id="time_h" value="{{time_h}}" pattern="[0-9]{1,3}" class="form-control">
-                        <span class="btn btn-block btn-primary">Минуты</span>
+                        <span class="btn btn-block btn-primary">Minutes</span>
                         <input id="time_m" value="{{time_m}}" pattern="[0-9]{1,3}" class="form-control">
-                        <span class="btn btn-block btn-primary">Секунды</span>
+                        <span class="btn btn-block btn-primary">Seconds</span>
                         <input id="time_s" value="{{time_s}}" pattern="[0-9]{1,3}" class="form-control">
                      </div>
                </div>
-               <input type="checkbox" id="use_sync" value="{{use_sync}}" class="form-control" onchange="set_ntp(this);" {{use_sync}}>Синхронизация с сервером времени<br>
-               <input class="btn btn-block btn-success" value="Установить" onclick="set_new_time(this,'Если включена синхонизация с NTP, она будет отключена. Установить время?');" type="submit">
-               <div class="alert alert-dismissible alert-success" style="margin-top:5px;">Ручная настройка времени </div>
-               <h4 style="margin-top:25px;">Установки погодного сервера</h4>
+               <input type="checkbox" id="use_sync" value="{{use_sync}}" class="form-control" onchange="set_ntp(this);" {{use_sync}}>Synchronizing with the time server<br>
+               <input class="btn btn-block btn-success" value="Установить" onclick="set_new_time(this,'If synchronization with NTP is enabled, it will be disabled. Set the time?');" type="submit">
+               <div class="alert alert-dismissible alert-success" style="margin-top:5px;">Manual time setting </div>
+               <h4 style="margin-top:25px;">Weather server settings</h4>
                <div class="row" style="margin-bottom:5px;">
                   <div class="col-sm-6">
-                     <span class="btn btn-block btn-primary">Код города</span>
-                     <input id="city_id" value="{{city_id}}" pattern="[0-9]{6,6}" class="form-control" placeholder="Код города">
+                     <span class="btn btn-block btn-primary">Area code</span>
+                     <input id="city_id" value="{{city_id}}" pattern="[0-9]{6,6}" class="form-control" placeholder="Area code">
                   </div>
                   <div class="col-sm-6">
-                     <span class="btn btn-block btn-primary">API погоды</span>
+                     <span class="btn btn-block btn-primary">Weather API</span>
                      <input id="w_api" value="{{w_api}}" pattern=".{1,100}" class="form-control" onfocus="this.type='text'" type="password" placeholder="API">
                   </div>
                </div>
-               <input type="checkbox" id="use_weather" value="{{use_weather}}" class="form-control" onchange="use_weath(this);" {{use_weather}}>Синхронизация с сервером погоды<br>
-               <input class="btn btn-block btn-success" value="Установить" onclick="set_weather(this);" type="submit">
+               <input type="checkbox" id="use_weather" value="{{use_weather}}" class="form-control" onchange="use_weath(this);" {{use_weather}}>Sync with the weather server<br>
+               <input class="btn btn-block btn-success" value="Set" onclick="set_weather(this);" type="submit">
                <div class="alert alert-dismissible alert-success" style="margin-top:5px;">
-                  <a href="https://openweathermap.org/api" target="_blank">Регистрация API</a><br>
-                  <a href="http://bulk.openweathermap.org/sample/city.list.json.gz" target="_blank">Цифровые коды городов</a>
+                  <a href="https://openweathermap.org/api" target="_blank">Check the API</a><br>
+                  <a href="http://bulk.openweathermap.org/sample/city.list.json.gz" target="_blank">Digital city codes</a>
                </div>
-               <h4>Подключение к Wi-Fi</h4>
+               <h4>Connect to Wi-Fi</h4>
                <div class="row" style="margin-bottom:5px;">
                   <div class="col-sm-6">
-                     <span class="btn btn-block btn-primary">Имя сети</span>
-                     <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя WiFi сети">
+                     <span class="btn btn-block btn-primary">Network name</span>
+                     <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="The name of the WiFi network">
                   </div>
                   <div class="col-sm-6">
-                     <span class="btn btn-block btn-primary">Пароль сети</span>
-                     <input id="password" value="{{password}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+                     <span class="btn btn-block btn-primary">Network password</span>
+                     <input id="password" value="{{password}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Password">
                   </div>
                </div>
-               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid(this);" type="submit">
+               <input class="btn btn-block btn-success" value="Save" onclick="set_ssid(this);" type="submit">
                <div class="alert alert-dismissible alert-success" style="margin-top:5px;">
-                     <span><strong>Подключение к Wi-Fi</strong><br>
-                     Для управления устройством и получения точного времени из Интернета</span>
+                     <span><strong>Connect to Wi-Fi</strong><br>
+                     To control the device and get the exact time from the Internet</span>
                </div>
-               <h4>Точка доступа Интернет-часов</h4>
+               <h4>Internet clock access point</h4>
                <div class="row" style="margin-bottom:5px;">
                   <div class="col-sm-6">
-                     <span class="btn btn-block btn-primary">Имя сети</span>
-                     <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя Wi-Fi сети">
+                     <span class="btn btn-block btn-primary">Network name</span>
+                     <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="The name of the WiFi network">
                   </div>
                   <div class="col-sm-6">
-                     <span class="btn btn-block btn-primary">Пароль сети</span>
-                     <input id="passwordAp" value="{{passwordAP}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+                     <span class="btn btn-block btn-primary">Network password</span>
+                     <input id="passwordAp" value="{{passwordAP}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Password">
                   </div>
                </div>
-               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid_ap(this);" type="submit">
+               <input class="btn btn-block btn-success" value="Save" onclick="set_ssid_ap(this);" type="submit">
                <div class="alert alert-dismissible alert-success" style="margin-top:5px;">
-                  Внутренняя точка доступа, к которой можно подключиться для управления устройством</div>
-               <h4>Имя устройства</h4>
+                     Internal access point to which you can connect to manage the device</div>
+               <h4>Device name</h4>
                <div class="row" style="margin-bottom:5px;">
                   <div class="col-sm-6">
-                     <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. -]{1,20}" placeholder="Имя устройства">
+                     <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. -]{1,20}" placeholder="Device name">
                   </div>
                   <div class="col-sm-6">
-                     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssdp(this);" type="submit">
+                     <input class="btn btn-block btn-success" value="Save" onclick="set_ssdp(this);" type="submit">
                   </div>
                </div>
-               <div class="alert alert-dismissible alert-success">Назначте имя устройства</div>
-               <h4 style="margin-top:25px;">Язык</h4>
+               <div class="alert alert-dismissible alert-success">Assign a device name</div>
+               <h4 style="margin-top:25px;">Language</h4>
                <div class="row" style="margin-bottom:5px;">
                   <div class="col-sm-6">
                      <select id="lang_sel" class="form-control">
-                        <option selected value="0">Русский</option>
-                        <option value="1">Български</option>
+                        <option selected value="0">Russian</option>
+                        <option value="1">Bulgarian</option>
                         <option value="2">English</option>
                      </select>
                   </div>
                   <div class="col-sm-6">
-                        <input class="btn btn-block btn-success" value="Сохранить" onclick="set_lang(this);" type="submit">
+                        <input class="btn btn-block btn-success" value="Save" onclick="set_lang(this);" type="submit">
                   </div>
                </div>
-               <div class="alert alert-dismissible alert-success">Выберете язык интерфейса устройства</div>
+               <div class="alert alert-dismissible alert-success">Select the interface language of the device</div>
                <div class="alert alert-dismissible alert-info">
-                     <b>Обновление внутренней программы</b><p style="margin:0px 0px 5px 0px;">(загрузка bin файлов)</p>
+                     <b>Select the interface language of the device</b><p style="margin:0px 0px 5px 0px;">(download of the bin files)</p>
                      <form method="POST" action="/update" enctype="multipart/form-data">
                         <div class="btn-group">
                            <input style="padding:5px;" type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
-                           <input style="padding:6px;" type="submit" class="btn btn-primary btn-xs" value="загрузить" onclick="this.value='Подождите...';" style="height: 33px;">
+                           <input style="padding:6px;" type="submit" class="btn btn-primary btn-xs" value="загрузить" onclick="this.value='Wait...';" style="height: 33px;">
                         </div>
                      </form>
                      <!-- <strong><a href="/edit" target="_blank">Загрузка файлов HTML</a></strong> -->
                </div>
-               <input class="btn btn-block btn-warning" value="Перезагрузка" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
+               <input class="btn btn-block btn-warning" value="Restart" onclick="restart(this,'Do you really want to reboot your device?');" type="submit">
             </div>
          </div>
       </div>
