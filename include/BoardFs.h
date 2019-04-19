@@ -48,6 +48,7 @@ bool SaveConFig() {
     json["strText"]    = strText;
     json["w_api"]      = w_api;
     json["city_id"]    = city_id;
+    json["useWeather"] = useWeather;
     // Открываем файл для записи
     File configFile = SPIFFS.open("/config.json", "w");
     if (!configFile) {
@@ -104,6 +105,7 @@ bool LoadConFig() { // Открываем файл для чтения
     strText       = doc["strText"].as<String>();
     w_api         = doc["w_api"].as<String>();
     city_id       = doc["city_id"].as<String>();
+    useWeather    = doc["useWeather"];
     configFile.close();                         // Закрываем файл
     return true;
 }
