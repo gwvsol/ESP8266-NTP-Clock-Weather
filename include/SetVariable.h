@@ -22,8 +22,8 @@ uint8_t lang = 0; //0-RU, 1-BG, 2 -EN // Параметр обновляется
 
 // Настройка переменной со значением времени
 //unsigned long currentTime      = millis();
-unsigned long HTTPTime         = 0;
-const unsigned long httpUpdate = 1000;   // Интервал обновления web сервиса
+unsigned long NtpTime         = 0;
+const unsigned long NtpUpdate = 300000;  // Интервал обновления web сервиса
 
 // Определяем константы для индикации режимов работы WiFi: ST или AP
 unsigned long LedTime     = 0;
@@ -93,7 +93,7 @@ const char* hum[] PROGMEM = {"`С. Влажн: ", "`С. Влажн: ", "`С. Hum
 const char* pres[] PROGMEM = {"%. Давл: ", "%. Налягане: ", "%. Pressure: "};
 const char* wind[] PROGMEM = {" мм. Ветер ", " мм. Вятър ", " mm. Wind "};
 const char* windsp[] PROGMEM = {" м/с.", " м/с.", " m/s"};
-const char* windir_ru[] PROGMEM = {"север-вост ", "вост ", "юго-вост ", "южный ", "юго-запад ", "запад ", "север.-запад ", "север "};
+const char* windir_ru[] PROGMEM = {"северо-вост ", "вост ", "юго-вост ", "южный ", "юго-запад ", "запад ", "северо-запад ", "север "};
 const char* windir_bg[] PROGMEM = {"север-изт ", "източ ", "юго-източ ", "южен ", "южен-запад ", "запад ", "север.-запад ", "север "};
 const char* windir_en[] PROGMEM = {"North-East ", "East ", "South-East ", "South ", "South-West ", "West ", "North-West ", "North "};
 const char** windir_table[] PROGMEM = {windir_ru, windir_bg, windir_en};
