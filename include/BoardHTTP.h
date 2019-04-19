@@ -222,7 +222,18 @@ String getContentType(String filename) {
 }
 
 bool handleFileRead(String path) {
-    if (path.endsWith("/")) path += "index.htm";
+    if (path.endsWith("/")) {
+        if (lang == 0) path += "index-ru.htm";
+        else if (lang == 1) path += "index-bg.htm";
+        else if (lang == 2) path += "index-en.htm";
+        else path += "index-en.htm";
+    }
+    if (path.endsWith("/setting")) {
+        if (lang == 0) path += "setting-ru.htm";
+        else if (lang == 1) path += "setting-bg.htm";
+        else if (lang == 2) path += "setting-en.htm";
+        else path += "setting-en.htm";
+    }
     String contentType = getContentType(path);
     String pathWithGz = path + ".gz";
     if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) {
