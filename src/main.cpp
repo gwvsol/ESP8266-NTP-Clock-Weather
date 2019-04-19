@@ -37,4 +37,5 @@ void loop() {
     HTTP.handleClient();
     delay(1);
     GetWeather();
+    GetNTP();
 }
