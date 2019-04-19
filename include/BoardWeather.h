@@ -1,5 +1,8 @@
 #include <ESP8266HTTPClient.h> 
 
+// Пример запроса с сервера
+// http://api.openweathermap.org/data/2.5/weather?id=732770&APPID=f266126b1c5cf63858b5f713a25908da&units=metric&lang=ru
+
 HTTPClient client;
 
 String ParseWeather(String weather){
@@ -29,6 +32,7 @@ String ParseWeather(String weather){
         else if( deg >292.5 && deg <=337.5 ) w_wind = windir_table[lang][6];
         else w_wind = windir_table[lang][7];                                   // Направление Ветра
         w_speed = jsonDoc["wind"]["speed"].as<String>();                       // Скорость Ветра
+        city_name = jsonDoc["name"].as<String>();                              // Название города
         weather = "";
         // Формируем строку для вывода на экран
         w_out = overboard[lang]+w_descript+temper[lang]+w_temp+hum[lang];
@@ -39,25 +43,29 @@ String ParseWeather(String weather){
 }
 
 // Получаем данные с сервера погоды
-String Weather_init() { 
-    String url;
-    String l;
-    if (lang == 0) l = "&lang=ru";
-    else if (lang == 1) l = "&lang=bg";
-    else if (lang == 2) l = "&lang=en";
-    else l = "&lang=en";
-    url = w_url+"?id="+city_id+"&APPID="+w_api+"&units=metric"+l;
-    //Serial.println(url);
-    Serial.println("Weather data update...");
-    client.begin(url);
-    int httpCode = client.GET();
-    if (httpCode == HTTP_CODE_OK) {
-        String httpString = client.getString(); 
-        return ParseWeather(httpString);
+String Weather_init() {
+    if (useWeather) {
+        String url;
+        String l;
+        if (lang == 0) l = "&lang=ru";
+        else if (lang == 1) l = "&lang=bg";
+        else if (lang == 2) l = "&lang=en";
+        else l = "&lang=en";
+        url = w_url+"?id="+city_id+"&APPID="+w_api+"&units=metric"+l;
+        //Serial.println(url);
+        Serial.println("Weather data update...");
+        client.begin(url);
+        int httpCode = client.GET();
+        if (httpCode == HTTP_CODE_OK) {
+            String httpString = client.getString(); 
+            return ParseWeather(httpString);
+        } else {
+            return "";
+        }
+        client.end();
     } else {
-        return "";
+        Serial.println("Weather data update is disabled!");
     }
-    client.end();
 }
 
 // Получаем данные о погоде
