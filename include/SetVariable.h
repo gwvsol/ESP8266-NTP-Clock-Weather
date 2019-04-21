@@ -23,7 +23,7 @@ uint8_t lang = 0; //0-RU, 1-BG, 2 -EN // Параметр обновляется
 // Настройка переменной со значением времени
 //unsigned long currentTime      = millis();
 unsigned long NtpTime         = 0;
-const unsigned long NtpUpdate = 300000;  // Интервал обновления web сервиса
+const unsigned long NtpUpdate = 3600000;  // Интервал обновления web сервиса
 
 // Определяем константы для индикации режимов работы WiFi: ST или AP
 unsigned long LedTime     = 0;
