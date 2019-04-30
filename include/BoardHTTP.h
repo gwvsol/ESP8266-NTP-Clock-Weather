@@ -133,7 +133,7 @@ void handle_Set_Ssdp() {
 // Установить имя и пароль AP по запросу вида http://IP/ssidap?ssidAP=home1&passwdAP=8765439
 void handle_Set_Ssidap() {       
     ssidAP = HTTP.arg("ssidAP");         // Получаем значение ssidAP из запроса сохраняем в глобальной переменной
-    passwdAP = HTTP.arg("passwordAP");   // Получаем значение passwordAP из запроса сохраняем в глобальной переменной
+    passwdAP = HTTP.arg("passwdAP");   // Получаем значение passwordAP из запроса сохраняем в глобальной переменной
     SaveConFig();                        // Функция сохранения данных во Flash
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
@@ -141,7 +141,7 @@ void handle_Set_Ssidap() {
 // Установить имя и пароль роутера по запросу вида http://IP/ssid?ssid=home2&passwd=12345678
 void handle_Set_Ssid() {
     ssid = HTTP.arg("ssid");             // Получаем значение ssid из запроса сохраняем в глобальной переменной
-    passwd = HTTP.arg("password");       // Получаем значение password из запроса сохраняем в глобальной переменной
+    passwd = HTTP.arg("passwd");       // Получаем значение password из запроса сохраняем в глобальной переменной
     SaveConFig();                        // Функция сохранения данных во Flash
     HTTP.send(200, "text/plain", "OK");  // отправляем ответ о выполнении
 }
@@ -350,12 +350,16 @@ void handle_ConfigJSON() {
     jsonDoc["lang"]         = lang;
     if (useAlarm1) jsonDoc["use_alarm1"] = "checked";
     else           jsonDoc["use_alarm1"] = "";
-    jsonDoc["alarm1_h"]     = alarm1_hour;
-    jsonDoc["alarm1_m"]     = alarm1_minute;
+    if (alarm1_hour < 10) jsonDoc["alarm1_h"] = "0"+ String(alarm1_hour);
+    else           jsonDoc["alarm1_h"]     = alarm1_hour;
+    if (alarm1_minute < 10) jsonDoc["alarm1_m"] = "0"+ String(alarm1_minute);
+    else           jsonDoc["alarm1_m"]     = alarm1_minute;
     if (useAlarm2) jsonDoc["use_alarm2"] = "checked";
     else           jsonDoc["use_alarm2"] = "";
-    jsonDoc["alarm2_h"]     = alarm2_hour;
-    jsonDoc["alarm2_m"]     = alarm2_minute;
+    if (alarm2_hour < 10) jsonDoc["alarm2_h"] = "0"+ String(alarm2_hour);
+    else           jsonDoc["alarm2_h"]     = alarm2_hour;
+    if (alarm2_minute < 10) jsonDoc["alarm2_m"] = "0"+ String(alarm2_minute);
+    else           jsonDoc["alarm2_m"]     = alarm2_minute;
     jsonDoc["bright"]       = brightness;
     jsonDoc["speed_d"]      = delaySym;
     jsonDoc["text"]         = strText;
