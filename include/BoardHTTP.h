@@ -58,6 +58,12 @@ void handle_TimeSet() {
     uint8_t new_h = HTTP.arg("hour").toInt(); 
     uint8_t new_m = HTTP.arg("min").toInt();
     uint8_t new_s = HTTP.arg("sec").toInt();
+    if (!new_y) new_y = year();
+    if (!new_mth) new_mth = month();
+    if (!new_d) new_d = day();
+    if (!new_h) new_h = hour();
+    if (!new_m) new_m = minute();
+    if (!new_s) new_s = second();
     useNTP = false;
     SaveConFig();
     setTime(new_h, new_m, new_s, new_d, new_mth, new_y); // Установка времени RTC микроконтроллера
