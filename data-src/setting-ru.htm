@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+   <head>
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+      <link rel="stylesheet" href="/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/style.css">
+      <link rel="icon" type="image/png" href="watch26.png" />
+      <script type="text/javascript" src="/function.js"></script>
+      <script type="text/javascript" src="/function1.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Интернет-часы/настройки</title>
+   </head>
+   <body onload="load();">
+      <div class="container">
+         <div class="row" style="text-align:center;">
+            <h2 style="margin-top:50px;">Интернет-часы</h2>
+            <h4>Настройка</h4>
+            <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+               <a class="btn btn-block btn-default" href="/">Главная страница</a>
+               <h4 style="margin-top:25px;">Временная зона</h4>
+               <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="time_zone(this);" type="submit">
+               <input class="btn btn-block btn-primary" value="Авто определение и сохранение зоны" onclick="set_time_zone(this);" type="submit">
+               <h4 style="margin-top:25px;">Cервер времени</h4>
+               <input id="ntpserver" value="{{ntpserver}}" pattern="[0-9a-zA-Z.-]{1,500}" class="form-control" placeholder="us.pool.ntp.org">
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ntp_server(this, 'Будет включена синхронизация с NTP');" type="submit">
+               <h4 style="margin-top:25px;">Настройка времени</h4>
+               <div class="row" style="margin-bottom:5px;">
+                     <div class="col-sm-6">
+                        <span class="btn btn-block btn-primary">Дата</span>
+                        <input id="date" type="date" class="form-control">
+                     </div>
+                     <div class="col-sm-6">
+                        <span class="btn btn-block btn-primary">Время</span>
+                        <input id="time" type="time" class="form-control">
+                     </div>
+               </div>
+               <input type="checkbox" id="use_sync" value="{{use_sync}}" class="form-control" onchange="set_ntp(this);" {{use_sync}}>Синхронизация с сервером времени<br>
+               <input class="btn btn-block btn-success" value="Установить" onclick="set_new_time(this,'Если включена синхронизация с NTP, она будет отключена. Установить время?');" type="submit">
+               <div class="alert alert-dismissible alert-success" style="margin-top:5px;">Ручная настройка времени </div>
+               <h4 style="margin-top:25px;">Установки погодного сервера</h4>
+               <div class="row" style="margin-bottom:5px;">
+                  <div class="col-sm-6">
+                     <span class="btn btn-block btn-primary">Код города</span>
+                     <input id="city_id" value="{{city_id}}" pattern="[0-9]{6,6}" class="form-control" placeholder="Код города">
+                  </div>
+                  <div class="col-sm-6">
+                     <span class="btn btn-block btn-primary">API погоды</span>
+                     <input id="w_api" value="{{w_api}}" pattern=".{1,100}" class="form-control" onfocus="this.type='text'" type="password" placeholder="API">
+                  </div>
+               </div>
+               <input type="checkbox" id="use_weather" value="{{use_weather}}" class="form-control" onchange="use_weath(this);" {{use_weather}}>Синхронизация с сервером погоды<br>
+               <input class="btn btn-block btn-success" value="Установить" onclick="set_weather(this);" type="submit">
+               <div class="alert alert-dismissible alert-success" style="margin-top:5px;">
+                  <a href="https://openweathermap.org/api" target="_blank">Регистрация API</a><br>
+                  <a href="http://bulk.openweathermap.org/sample/city.list.json.gz" target="_blank">Цифровые коды городов</a>
+               </div>
+               <h4>Подключение к Wi-Fi</h4>
+               <div class="row" style="margin-bottom:5px;">
+                  <div class="col-sm-6">
+                     <span class="btn btn-block btn-primary">Имя сети</span>
+                     <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя WiFi сети">
+                  </div>
+                  <div class="col-sm-6">
+                     <span class="btn btn-block btn-primary">Пароль сети</span>
+                     <input id="password" value="{{password}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+                  </div>
+               </div>
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid(this);" type="submit">
+               <div class="alert alert-dismissible alert-success" style="margin-top:5px;">
+                     <span><strong>Подключение к Wi-Fi</strong><br>
+                     Для управления устройством и получения точного времени из Интернета</span>
+               </div>
+               <h4>Точка доступа Интернет-часов</h4>
+               <div class="row" style="margin-bottom:5px;">
+                  <div class="col-sm-6">
+                     <span class="btn btn-block btn-primary">Имя сети</span>
+                     <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.-]{1,15}" placeholder="Имя Wi-Fi сети">
+                  </div>
+                  <div class="col-sm-6">
+                     <span class="btn btn-block btn-primary">Пароль сети</span>
+                     <input id="passwordAp" value="{{passwordAP}}" pattern=".{6,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+                  </div>
+               </div>
+               <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid_ap(this);" type="submit">
+               <div class="alert alert-dismissible alert-success" style="margin-top:5px;">
+                  Внутренняя точка доступа, к которой можно подключиться для управления устройством</div>
+               <h4>Имя устройства</h4>
+               <div class="row" style="margin-bottom:5px;">
+                  <div class="col-sm-6">
+                     <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. -]{1,20}" placeholder="Имя устройства">
+                  </div>
+                  <div class="col-sm-6">
+                     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssdp(this);" type="submit">
+                  </div>
+               </div>
+               <div class="alert alert-dismissible alert-success">Назначьте имя устройства</div>
+               <h4 style="margin-top:25px;">Язык</h4>
+               <div class="row" style="margin-bottom:5px;">
+                  <div class="col-sm-6">
+                     <select id="lang_sel" class="form-control">
+                        <option selected value="0">Русский</option>
+                        <option value="1">Български</option>
+                        <option value="2">English</option>
+                     </select>
+                  </div>
+                  <div class="col-sm-6">
+                        <input class="btn btn-block btn-success" value="Сохранить" onclick="set_lang(this);" type="submit">
+                  </div>
+               </div>
+               <div class="alert alert-dismissible alert-success">Выберите язык интерфейса устройства</div>
+               <div class="alert alert-dismissible alert-info">
+                     <b>Обновление внутренней программы</b><p style="margin:0px 0px 5px 0px;">(загрузка bin файлов)</p>
+                     <form method="POST" action="/update" enctype="multipart/form-data">
+                        <div class="btn-group">
+                           <input style="padding:5px;" type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
+                           <input style="padding:6px;" type="submit" class="btn btn-primary btn-xs" value="загрузить" onclick="this.value='Подождите...';" style="height: 33px;">
+                        </div>
+                     </form>
+                     <!-- <strong><a href="/edit" target="_blank">Загрузка файлов HTML</a></strong> -->
+               </div>
+               <input class="btn btn-block btn-warning" value="Перезагрузка" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
+            </div>
+         </div>
+      </div>
+   </body>
+   <footer class="footer">
+         &copy; 2019, <a href="https://led-lightwell.eu" target="_blank">LIGHTWELL</a>
+   </footer>
+</html>	
