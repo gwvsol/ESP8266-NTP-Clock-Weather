@@ -33,8 +33,8 @@ const unsigned long ApOn    = 1000;      // Время включения све
 const unsigned long ApOff   = 1000;      // Время выключения светодиода в режиме AP
 
 // Определяем переменные для подключения к wifi // Все Параметры обновляется с web интерфейса
-String ssid           = "w2234";            // Точка доступа для подключения
-String passwd         = "Fedex##54";        // Пароль для подключения к точке доступа
+String ssid           = "FRESH_ASUS";            // Точка доступа для подключения
+String passwd         = "FRESH250391";        // Пароль для подключения к точке доступа
 String ssidAP         = "WiFiClock";        // Имя точки доступа в режиме AP
 String passwdAP       = "rootroot";         // Пароль точки доступа в режиме AP
 
