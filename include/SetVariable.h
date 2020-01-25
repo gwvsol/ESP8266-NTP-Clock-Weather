@@ -33,8 +33,8 @@ const unsigned long ApOn    = 1000;      // Время включения све
 const unsigned long ApOff   = 1000;      // Время выключения светодиода в режиме AP
 
 // Определяем переменные для подключения к wifi // Все Параметры обновляется с web интерфейса
-String ssid           = "FRESH_ASUS";            // Точка доступа для подключения
-String passwd         = "FRESH250391";        // Пароль для подключения к точке доступа
+String ssid           = "w2234";            // Точка доступа для подключения
+String passwd         = "Fedex##54";        // Пароль для подключения к точке доступа
 String ssidAP         = "WiFiClock";        // Имя точки доступа в режиме AP
 String passwdAP       = "rootroot";         // Пароль точки доступа в режиме AP
 
@@ -104,7 +104,7 @@ const unsigned long WeatherUpdate   = 90000;              // Интервал о
 String strWeather        = "Expect weather data updates"; //
 String w_api             = "f266126b1c5cf63858b5f713a25908da";  // API OpenWeatherMap
 // Коды городов http://bulk.openweathermap.org/sample/city.list.json.gz
-String city_id           = "732770";
+String city_id           = "472045";
 String w_url             = "http://api.openweathermap.org/data/2.5/weather";
 String w_out             = "";
 String w_descript        = "";
