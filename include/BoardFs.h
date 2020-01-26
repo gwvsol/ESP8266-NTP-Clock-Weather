@@ -67,7 +67,7 @@ bool LoadConFig() { // Открываем файл для чтения
     File configFile = SPIFFS.open("/config.json", "r");
     if (!configFile) {  // если файл не найден  
         Serial.println("Failed to open config file");
-        //  Создаем файл запиав в него даные по умолчанию
+        //  Создаем файл записав в него даные по умолчанию
         SaveConFig();
         return false;
         }
