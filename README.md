@@ -1,6 +1,8 @@
 ## ESP8266-Clock-Max7219
 
-Часы с возможностью обновления времени с NTP сервера и показа погоды
+Часы с обновлением времени с NTP сервера и показом погоды
+
+Clock with time update from NTP server and weather display
 
 ***
 
