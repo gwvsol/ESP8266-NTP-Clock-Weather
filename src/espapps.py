@@ -13,7 +13,7 @@ from esptime import EspDateTime
 class MainApps(object):
 
     def __init__(self):
-        self.log          = log
+        self.log             = log
         self.debug           = config['debug']
         self.mode            = config['mode']
         self.ledBoard        = config['wifiLedPin']
