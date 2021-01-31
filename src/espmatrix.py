@@ -145,7 +145,8 @@ class Max7219(framebuf.FrameBuffer):
                 if matrix == 2 and clock: # На втором индикаторе смещаем цифру на 1 пиксель вправо
                     buff = self.buffer[index] >> 1
                     if line in line_sep and sep: buff = buff | 128
-                data.extend(dig.append(buff))
+                dig.append(buff)
+                data.extend(dig)
             self.spi.write(data)
             self.cs(1)
 
