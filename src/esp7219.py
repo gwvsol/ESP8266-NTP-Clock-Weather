@@ -125,7 +125,6 @@ class Max7219(framebuf.FrameBuffer):
     def show(self, clock=True, sep=False):
         """Метод для обновления LED матриц"""
         # Записываем данные строка за строкой
-        
         for line in range(8):
             self.cs(0)
             data = bytearray()
@@ -146,8 +145,7 @@ class Max7219(framebuf.FrameBuffer):
                 if matrix == 2 and clock: # На втором индикаторе смещаем цифру на 1 пиксель вправо
                     buff = self.buffer[index] >> 1
                     if line in line_sep and sep: buff = buff | 128
-                dig.append(buff)
-                data.extend(dig)
+                data.extend(dig.append(buff))
             self.spi.write(data)
             self.cs(1)
 
@@ -158,13 +156,13 @@ from esp7219 import ClockMax7219
 clock = ClockMax7219()
 clock.clock()
     """
-
     def __init__(self):
         self.spi = SPI(1, baudrate=20000000)
         self.screen = Max7219(32, 8, self.spi, Pin(15))
 
 
     def show_clock(self, sep=True):
+        """Метод для отображения часов"""
         self.screen.fill(0)
         self.screen.show()
         local = localtime()
@@ -176,11 +174,11 @@ clock.clock()
         self.screen.show(sep=sep)
 
     
-    def clock(self):
-        sep = True
+    def clock(self, sep:bool = True):
+        """Метод, цикл для отображения часов"""
         while True:
             self.show_clock(sep=sep)
             sep = False if sep else True
-            sleep(3)
+            sleep(5)
             
             
