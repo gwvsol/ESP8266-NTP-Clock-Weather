@@ -152,7 +152,7 @@ class Max7219(framebuf.FrameBuffer):
 
 class ClockMax7219(object):
     """
-from esp7219 import ClockMax7219
+from espmatrix import ClockMax7219
 clock = ClockMax7219()
 clock.clock()
     """
