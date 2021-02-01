@@ -5,6 +5,7 @@ from espconfig import *
 from esputils import log
 from espwlan import WiFiConnect
 from esptime import EspDateTime
+from espmatrix import ClockMax7219
 
 """Здесь реализуется основное приложение
    подключена работа wifi модуля и его управление 
@@ -22,19 +23,20 @@ class MainApps(object):
         self.wifi            = WiFiConnect(led=self.wifiLed)                                # Настрока сети
         self.esptime         = EspDateTime(zone=config['timezone'], \
                                 daylight=config['daylight'], network=self.wifi, loop=True)  # Настройка обновления времени RTC на EPS8266
+        self.matrix          = ClockMax7219()                                               # Подключение вывода времени на LED MATRIX
     
     async def main_loop(self):
         """Метод для вывода служебной отладочной информации"""
         while True:
-            mode = 'Station' if self.mode else 'Access Point'      # Подготовка информации о режиме работы WiFi модуля
+            # mode = 'Station' if self.mode else 'Access Point'      # Подготовка информации о режиме работы WiFi модуля
             # connect = 'Connect' if self.connect else 'Disconnect'  # Подготовка информации о соединении
             gc.collect()                                           # Очищаем RAM
             try:
                 # self.log('################# DEBUG MESSAGE #################')
                 self.log('MainApps => MemFree:', '{}Kb'.format(round(gc.mem_free()/1024, 2)))       # Свободная память
-                self.log('MainApps => MemAllocated:', '{}Kb'.format(round(gc.mem_alloc()/1024, 2))) # Доступная помять
+                # self.log('MainApps => MemAllocated:', '{}Kb'.format(round(gc.mem_alloc()/1024, 2))) # Доступная помять
                 # self.log('FREQ:', '{}MHz'.format(freq()/1000000))
-                self.log('MainApps => WiFi Mode:', mode)
+                # self.log('MainApps => WiFi Mode:', mode)
                 # self.log('WiFi:', connect)
                 self.log('MainApps => IP:', '{}'.format(self.wifi.ip))                              # IP адрес ESP8266
                 # self.log('################# DEBUG MESSAGE END #################')
