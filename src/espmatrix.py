@@ -1,7 +1,8 @@
+import uasyncio as asyncio
 from machine import Pin, SPI
 from micropython import const
 import framebuf
-from time import localtime, sleep
+from time import localtime #, sleep
 
 """14 регистров, с помощью которых осуществляется управление драйвером. 
 При задании адреса старший полубайт не имеет значения"""
@@ -85,9 +86,9 @@ class Max7219(framebuf.FrameBuffer):
         self.init_display()
 
     
-    def byte_to_str(self, data:bytearray) -> str:
-        """Метод для перевода bytes bytearray или list в строку"""
-        return ' '.join(["{:08b}".format(i) for i in data])
+#    def byte_to_str(self, data:bytearray) -> str:
+#        """Метод для перевода bytes bytearray или list в строку"""
+#        return ' '.join(["{:08b}".format(i) for i in data])
 
     
     def _write_command(self, command, data):
@@ -161,8 +162,11 @@ clock.clock()
         self.spi = SPI(1, baudrate=20000000)
         self.screen = Max7219(32, 8, self.spi, Pin(15))
 
+        self.loop = asyncio.get_event_loop()
+        self.loop.create_task(self.clock())
 
-    def show_clock(self, sep=True):
+
+    async def show_clock(self, sep=True):
         """Метод для отображения часов"""
         self.screen.fill(0)
         self.screen.show()
@@ -173,13 +177,14 @@ clock.clock()
         clock = '{}{}'.format(hour, minute)
         self.screen.text(clock, 0, 0, 1)
         self.screen.show(sep=sep)
+        await asyncio.sleep(0.1)
 
     
-    def clock(self, sep:bool = True):
+    async def clock(self, sep:bool = True):
         """Метод, цикл для отображения часов"""
         while True:
-            self.show_clock(sep=sep)
+            await self.show_clock(sep=sep)
             sep = False if sep else True
-            sleep(5)
+            await asyncio.sleep(5)
             
             
