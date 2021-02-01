@@ -71,6 +71,7 @@ await tz.getlocaltime()
             except AttributeError as err:
                 self.log('EspDateTime => AttributeError', err)
                 break
+            await asyncio.sleep(0.01)
 
 
     def getntp(self) -> int:
@@ -117,6 +118,7 @@ await tz.getlocaltime()
             if (((d + y + y // 4 - y // 100 + y // 400 + (31 * m) // 12)) % 7) == 0:
                 if d + 7 > 31: 
                     return d
+        await asyncio.sleep(0.01)
 
 
     async def adj_tzone(self, utc:tuple) -> int:
@@ -134,6 +136,7 @@ await tz.getlocaltime()
             if self.daylight: rcv = self.time_zone.get(self.zone) - 1
             else: rcv = self.time_zone.get(self.zone)
             self.log('EspDateTime => TIME ZONE Winter:', rcv)
+        await asyncio.sleep(0.1)
         return rcv
 
 
@@ -147,6 +150,7 @@ await tz.getlocaltime()
                                                     newTime[1], newTime[2], newTime[3], newTime[4], newTime[5]))
             newTime = (newTime[0], newTime[1], newTime[2], newTime[6], newTime[3], newTime[4], newTime[5], 0)
             self.rtc.datetime(newTime)
+        await asyncio.sleep(0.01)
         # local = localtime()
         # year, month, day, hour, minute, second = local[0], local[1], local[2], local[3], local[4], local[5]
         # self.log('EspDateTime => Local Time:', '{}-{}-{} {}:{}:{}'.format(year, month, day, hour, minute, second))
@@ -154,6 +158,7 @@ await tz.getlocaltime()
     
     async def gettime(self) -> tuple: # => (year, month, day, hour, minute, second)
         """Метод для получения локального времени"""
+        await asyncio.sleep(0.1)
         local = localtime()
         # year, month, day, hour, minute, second = local[0], local[1], local[2], local[3], local[4], local[5]
         # self.log('EspDateTime => Local Time:', '{}-{}-{} {}:{}:{}'.format(year, month, day, hour, minute, second))
